@@ -1,5 +1,13 @@
 //Exercicio 02
-/** Problema: Peça ao usuário para digitar dois números diferentes. Em seguida, 
-verifique qual dos dois números é o maior e exiba a seguinte mensagem: 
-"O maior número é: [número maior]".**/
+const prompt = require("prompt-sync")();
 
+// Peça ao usuário para digitar dois números diferentes
+let primeiroNumero = Number(prompt("Digite um número: "));
+let segundoNumero = Number(prompt("Digite outro número: "));
+
+//verifique qual dos dois números é o maior
+if (primeiroNumero > segundoNumero) {
+    console.log("O maior número é: " + primeiroNumero);
+} else {
+    console.log("O maior número é: " + segundoNumero);
+}
