@@ -1,0 +1,281 @@
+:root{
+  --bg:#0f172a;       /* fundo geral bem escuro */
+  --card:#1e293b;     /* fundo dos cards */
+  --ink:#f1f5f9;      /* texto principal claro */
+  --muted:#94a3b8;    /* texto secundário */
+  --accent:#38bdf8;   /* destaque azul neon */
+  --line:#334155;     /* bordas */
+}
+
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--card);
+  color:var(--ink);
+  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+}
+
+/*=== Header ===*/
+.banner {
+  position: relative;
+  width: 100%;
+  height: 600px; /* altura do banner */
+  background: url("einstein.gif")
+              no-repeat center center;
+  background-size: cover; /* cobre toda a área sem deformar */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+.banner .texto {
+  text-align: left;
+  color: white;
+  padding: 20px 20px;
+  margin-left: 16%;
+}
+
+.banner h1 {
+  font-size: 4rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.banner p {
+  font-size: 2rem;
+  margin-top: 5px;
+  color: var(--muted);
+}
+
+/* === dados basicos ==*/
+.dados-basicos {
+  text-align: center;
+  max-width: 1000px;
+  margin: 16px auto;
+  padding: 2px;
+  height: auto;
+  color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.card{
+  background: var(--muted);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  border-color: #38bdf8;
+  border: 5px;
+
+}
+
+.card:hover {
+  transform: translatey(-5px);
+}
+
+.dados-basicos h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: left;
+  color: var(--accent);
+}
+
+.card h3 {
+  margin-bottom: 0px;
+  font-size: 1.2rem;
+  color: var(--card);
+}
+
+.card p {
+  color: var(--card);
+  font-size: 1rem;
+  margin-top: 0px;
+}
+
+/*=== biografia ===*/
+.biografia {
+  background: url("fundo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.biografia .conteudo {
+  text-align: left;
+  width: 70vh;
+  margin-left: 15%;
+}
+
+.biografia .conteudo h2 {
+  font-size: 2rem;
+  margin-top: 5%;
+  color: var(--accent);
+}
+
+.biografia .conteudo p {
+  font-size: 1.2rem;
+  margin-top: 5%;
+  color: var(--ink);
+}
+
+/* === descoberta === */
+.descoberta {
+  padding: 60px;
+  background: var(--bg);
+}
+
+.conteudo-descoberta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  height: auto 80vh;
+  background: var(--bg);
+}
+
+.texto-descoberta {
+  flex: 1;
+  min-width: 280px;
+}
+
+.texto-descoberta h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.texto-descoberta p {
+  font-size: 1.6rem;
+  margin-bottom: 1.6;
+}
+
+.imagem {
+  flex: 1;
+  min-width: 280px;
+  text-align: center;
+}
+
+.imagem img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/*=== Linha do tempo ===*/
+.linha-do-tempo {
+  text-align: left;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.linha-do-tempo h2 {
+  color: var(--accent);
+  font-size: 2rem;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.linha-do-tempo table {
+  margin-left: 22%;
+  width: 60%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.linha-do-tempo thead th {
+  background: linear-gradient(180deg, #0b1220,#0e1a2f);
+  color: var(--ink);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  font-size: .85rem;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.linha-do-tempo tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.linha-do-tempo tbody tr:nth-child(odd){
+  background: rga(56,189,248,.12);
+}
+
+.linha-do-tempo tbody td:first-child {
+  width: 120px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/*=== Citacao ===*/
+.citacao {
+  padding: 60px;
+  background: var(--bg);
+}
+
+.quote {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+  height: auto 70vh;
+  background: var(--bg);
+}
+
+.texto-citacao {
+  flex: 1;
+  min-width: 200px;
+  font-family: 'Courier New', Courier, monospace;
+  margin-left: 18%;
+}
+
+.citacao h2 {
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.texto-citacao h3 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.texto-citacao p {
+  font-size: 1.6rem;
+  margin-bottom: 1.6;
+}
+
+.imagem-citacao {
+  flex: 1;
+  min-width: 260px;
+  text-align: center;
+}
+
+.imagem-citacao img {
+  width: 70%;
+  height: auto;
+}
+
+footer{
+  color:var(--muted);
+  font-size:14px;
+  text-align:center;
+  padding:24px 0;
+}
