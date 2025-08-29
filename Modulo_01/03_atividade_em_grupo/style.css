@@ -37,10 +37,12 @@ html,body{
   margin-left: 16%;
 }
 
-.banner h1 {
-  font-size: 4rem;
+.banner .texto h1 {
+  font-size: clamp(3.6rem, 4.8rem, 10vw);
   margin: 0;
   color: var(--accent);
+  border-left: 8px solid var(--accent);
+  padding-left: 10px;
 }
 
 .banner p {
@@ -106,14 +108,15 @@ html,body{
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  height: 100vh;
+  height: 80%;
   display: flex;
 }
 
 .biografia .conteudo {
   text-align: left;
-  width: 70vh;
+  width: 80ch;
   margin-left: 15%;
+  margin-bottom: 5%;
 }
 
 .biografia .conteudo h2 {
@@ -124,7 +127,7 @@ html,body{
 
 .biografia .conteudo p {
   font-size: 1.2rem;
-  margin-top: 5%;
+  margin-top: 0;
   color: var(--ink);
 }
 
@@ -253,7 +256,7 @@ html,body{
 }
 
 .texto-citacao h3 {
-  font-size: 3rem;
+  font-size: clamp(1.6rem, 3rem, 4rem);
   margin-bottom: 20px;
 }
 
@@ -264,7 +267,7 @@ html,body{
 
 .imagem-citacao {
   flex: 1;
-  min-width: 260px;
+  min-width: 400px;
   text-align: center;
 }
 
