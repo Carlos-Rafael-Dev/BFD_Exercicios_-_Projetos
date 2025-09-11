@@ -8,18 +8,14 @@
     </head>
     <body>
         <header>
-            <div>
-                <img src="logo.png" alt="logotipo">
-                <img src="modo.png" alt="modo claro/escuro">
-            </div>
-            <div>
-                <h1>To Do List</h1>
-                <p id="data-atual"></p>
-            </div>
+            <img src="/assets/logo.png" alt="logotipo">
+            <h1>To Do List</h1>
+            <button onclick="modo-escuro()" id="botao">Modo Escuro</button>
         </header>
 
         <main>
             <section>
+                <p id="data-atual"></p>
                 <input type="text" placeholder="Adicionar tarefa...">
                 <button type="submit">Adicionar</button>
             </section>
@@ -38,9 +34,9 @@
             <section>
                 <p>Tarefas pedentes: </p>
             </section>
-
+            <footer></footer>
         </main>
-        <footer></footer>
+        
         <script type="text/javascript" src="script.js"></script>
     </body>
 
