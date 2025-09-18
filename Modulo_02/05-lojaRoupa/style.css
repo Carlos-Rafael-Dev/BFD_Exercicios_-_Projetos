@@ -13,36 +13,117 @@ body {
   }
 
   /* Cabeçalho com ID */
-  #cabecalho-blog {
-    background-color: #e8e2dd;
-    color: rgb(253, 253, 253);
-    text-align: center;
-    margin-bottom: 40px;
-    height: 300px;
-    width: 100%;
-    background: url("/assets/promo.jpg") no-repeat center center;
-    background-size: cover;
+  header {
+    height: 6vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    justify-content: space-between;
+    padding: 6px 40px;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
-  .banner-frete {
+  .logo img {
+    height: 80px;
+    padding: 0;
+  }
+
+  .menu-direito {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .pesquisa {
+    display: flex;
+  }
+
+  .pesquisa input[type="text"] {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid gray;
+    width: 40vw;
+    padding: 0.7rem;
+  }
+
+  .pesquisa button {
+    background-color: rgb(19, 19, 19);
+    color: white;
+    height: 3rem;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .menu-direito a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+  }
+
+  .cart-btn {
+    background: transparent;
+    border: 1px solid #0c0c0c;
+    color: #0c0c0c;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+
+  .hero {
+    height: 50vh;
+    background: 
+    url("./assets/promo.jpg") no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    color: white;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero p {
+    font-size: 1.3rem;
+    margin: 20px 0;
+    max-width: 700px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .banner {
     background: #bbbbbb; /* degrade chamativo */
     color: rgb(255, 255, 255);
     text-align: center;
     font-weight: bold;
     padding: 12px;
     font-size: 1rem;
+    font-weight: 400;
     letter-spacing: 1px;
     margin-bottom: 20px; /* espaço antes do main */
     font-family: sans-serif;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
   }
 
-  .banner-frete p {
+  .banner span {
+    font-size: 12px;
+  }
+
+  .banner p {
     margin: 0;
+    width: 10%;
   }
   
   .produtos {
@@ -82,21 +163,21 @@ body {
   }
 
   .card p {
-    font-size: 16px;
-    color: #1f1f1f;
+    font-size: 20px;
+    color: #33bb18;
     margin: 8px 0;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .card .descricao {
     color: #686868;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .card button {
-    background: #34a829;
+    background: #0c0c0c;
     color: white;
-    padding: 10px 15px;
+    padding: 10px 25px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -113,23 +194,73 @@ body {
     font-size: 14px;
   }
 
-  #overlay {
+  .overlay {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 50%;
-    height: 30%;
-    background: rgba(0,0,0,0.8);
-    color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 2000;
+  }
+
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Sidebar carrinho*/
+  .cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease;
+    z-index: 2000;
     display: flex;
+    flex-direction: column;
+  }
+
+  .cart-sidebar.active {
+    right: 0;
+  }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 24px;
-    z-index: 1000;
-    display: none; /* começa escondido */
-    border-radius: 8px;
-    transform: translate(-50%, -50%);
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .close-cart {
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+ 
+
+
+
+  .checkout {
+    width: 100%;
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+
+  .checkout:hover {
+    background: #333;
   }
 
   /* Navegação */
@@ -242,7 +373,7 @@ body {
     background-color: #bedae7;
     border-radius: 50%;
     margin: 0 auto 15px;
-    background-image: url("/assets/logo.png");
+    background-image: url("./assets/logo.png");
     background-size: cover;
     background-position: center;
   }
@@ -302,4 +433,86 @@ body {
     width: 100%;
     height: 100px;
     font-family: sans-serif;
+  }
+
+  .formularioCadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -30vh;
+  }
+
+  .formularioCadastro h2 {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fff;
+  }
+
+  .form {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 25px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .form label span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .form input[type="email"],
+  .form input[type="tel"],
+  .form input[type="text"],
+  .form input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #333;
+  }
+
+  .termos {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.4;
+  }
+  .termos a {
+    color: #3483fa;
+    text-decoration: none;
+  }
+  
+  /* Botão */
+  .btn {
+    background: #272727;
+    color: white;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background: #2968c8;
   }

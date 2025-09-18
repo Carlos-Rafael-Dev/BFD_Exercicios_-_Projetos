@@ -5,12 +5,15 @@
         <link rel="stylesheet" href="style.css">
         <title>To-Do List</title>
         <meta name="description" content="lista de tarefas com javascript"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <header>
-            <img src="/assets/logo.png" alt="logotipo">
-            <h1>To Do List</h1>
-            <button onclick="modo-escuro()" id="botao">Modo Escuro</button>
+            <div class="logotipo">
+                <img src="/assets/logo.png" alt="logotipo">
+                <h1>To Do List</h1>
+            </div>
+            <button onclick="modo-escuro()" id="botao"></button>
         </header>
 
         <main>
@@ -18,24 +21,20 @@
                 <p id="data-atual"></p>
             </section>
 
-            <section>
-                <input type="text" placeholder="Adicionar tarefa...">
-                <button type="submit">+</button>
+            <section class="addTarefas">
+                <input type="text" id="caixaTexto" placeholder="Adicionar tarefa...">
+                <button type="submit" onclick="addTarefa()">+</button>
             </section>
 
             <section>
                 <h2>Minhas tarefas</h2>
                 <!-- Aqui é adicionado as tarefas com javascript -->
-                <input type="checkbox" id="tarefa1">
-                <label for="tarefa1">Tarefa 1</label>
-                <input type="checkbox" id="tarefa2">
-                <label for="tarefa2">Tarefa 2</label>
-                <input type="checkbox" id="tarefa3">
-                <label for="tarefa3">Tarefa 3</label>
+                <ul class="listaTarefas">
+                </ul>
             </section>
 
-            <section>
-                <p>Tarefas pedentes: </p>
+            <section class="pedente">
+                <p>Tarefas pedentes: <span id="contador">0</span></p>
             </section>
             <footer></footer>
         </main>

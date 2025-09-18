@@ -17,7 +17,7 @@
 }
 
 body {
-    background-color: #bebbe8;
+    background-color: var(--background);
     font-family: "Silkscreen", sans-serif;
     font-weight: 400;
     text-align: center;
@@ -28,6 +28,7 @@ body {
 }
 
 header {
+    min-width: none;
     width: 100%;
     padding: 0.2rem;
     background-color: var(--header);
@@ -36,19 +37,33 @@ header {
     justify-content: space-between;
 }
 
-h1 {
-    font-size: clamp(1.6rem, 3vw, 2rem);
+.logotipo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 2rem;
+}
+
+.logotipo h1 {
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
     white-space: nowrap; /*impede a quebra da linha*/
 }
 
-img {
-    width: 2.6rem;
+.logotipo img {
+    width: 2.2rem;
     height: auto;
     object-fit: contain;
 }
 
 #botao {
     background-color: var(--background);
+    width: 3rem;
+    margin-right: 3rem;
+    background: url(/assets/modo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }
 
 main {
@@ -67,13 +82,94 @@ p {
     text-align: left;
 }
 
+.addTarefas {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
 input[type="text"] {
-    width: 80%;
+    width: 100%;
     padding: 0.6rem;
     font-family: "Silkscreen", sans-serif;
-    font-size: 0.8rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    justify-content: center;
 }
 
 button[type="submit"] {
     background-color: var(--destaque);
+    width: 3rem;
+    height: 2.6rem;
+    font-size: 2rem;
+    justify-content: center;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-top: 0px solid;
+    border-left: 0px solid;
+}
+
+h2 {
+    text-align: left;
+    font-size:large;
+}
+
+.listaTarefas {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20%;
+    border: 1px solid black;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+}
+
+.item {
+    background-color: var(--box);
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--borderLine);
+}
+
+.item input[type="checkbox"] {
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.item label {
+    flex: 1;
+    text-align: left;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    cursor: pointer;
+}
+
+.item input[type="checkbox"]:checked + label {
+    text-decoration: line-through;
+    color: #757575;
+}
+
+.delete {
+    width: 24px;
+    height: 24px;
+    background: url("/assets/trash.png");
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    padding-right: 2rem;
+    background-repeat: no-repeat;
+}
+
+.pedente {
+    display: flex;
+    gap: 0.4rem;
+    align-items:first baseline;
+}
+
+#contador {
+    background-color: var(--box);
+    padding: 0.2rem;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    cursor:context-menu;
 }

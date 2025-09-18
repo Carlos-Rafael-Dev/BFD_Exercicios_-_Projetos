@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lívia's Clothing</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+        <div class="logo">
+            <img src="./assets/logo.png" alt="logotipo">
+          </div>
+    </section>
+
+
+    <main class="formularioCadastro">
+        <h2>Crie sua conta e faça parte nosso clube</h2>
+
+        <form class="form" method="post">
+            <label>
+                <span>E-mail</span>
+                <input type="email" placeholder="exemplo@email.com" required>
+              </label>
+        
+              <label>
+                <span>Telefone</span>
+                <input type="tel" placeholder="+55" required>
+              </label>
+        
+              <label>
+                <span>Nome</span>
+                <input type="text" required>
+              </label>
+        
+              <label class="senha-label">
+                <span>Senha</span>
+                <input type="password" required>
+              </label>
+        
+              <label class="checkbox">
+                <input type="checkbox" checked>
+                <span>Aceito que entrem em contato comigo por SMS e WhatsApp.</span>
+              </label>
+        
+              <p class="termos">
+                Ao "Continuar", aceito os <a href="#">Termos e condições</a> e autorizo
+                o uso dos meus dados de acordo com a <a href="#">Declaração de privacidade</a>.
+              </p>
+        
+              <button type="submit" class="btn">Continuar</button>  
+        </form>
+
+    </main>
+    <script src="script.js"></script>
+
+  </body>
+</html>

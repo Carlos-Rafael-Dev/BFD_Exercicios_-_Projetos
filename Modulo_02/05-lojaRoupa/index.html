@@ -7,19 +7,67 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header id="cabecalho-blog">
-        <h1>Lívia's Clothing</h1>
+    <!-- ============== CABEÇALHO ================== -->
+    <header id="cabecalho">
+      <div class="logo">
+        <img src="./assets/logo.png" alt="logotipo">
+      </div>
+
+      <div class="pesquisa">
+        <input type="text" placeholder="Pesquisa...">
+        <button id="pesquisa">
+          <img src="./assets/lupa.png" width="20" height="20">
+        </button>
+      </div>
+
+      <div class="menu-direito">
+        <a href="#">Login</a>
+        <a href="signUp.html">Cadastre-se</a>
+        <button id="carrinho" class="cart-btn">🛒 Cart</button>
+      </div>
+        
     </header>
 
-    <div class="banner-frete">
-      <p>🚚 Frete grátis para todo o Nordeste!</p>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <h1>Lívia's Clothing</h1>
+      <p>Aproveite os descontos especiais</p>
+    </section>
+
+    <div class="banner">
+      <p><b>🚚<br> Frete grátis </b><br><span> para todo o Nordeste!</span></p>
+      <p><b>Desconto </b><br><span> de 10% no pix </span></p>
+      <p><b>Pague no cartão </b><br><span>divida em até 10x sem juros</span></p>
+      <p>Loja 100% segura</p>
     </div>
 
+    <!-- overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- sidebar carrinho -->
+    <div id="cartSidebar" class="cart-sidebar">
+      <div class="cart-header">
+        <h2>Shopping Cart</h2>
+        <span id="closeCart" class="close-cart">&times;</span>
+      </div>
+      <div class="cart-conteudo">
+        <table id="cart-lista">
+
+        </table>
+      </div>
+      <div class="summary">
+        <p>Subtotal: </p>
+        <p>Frete: </p>
+        <p>Total: </p>
+        <button class="checkout">checkout</button>
+      </div>
+    </div>
+
+    <!-- ------------ BARRA LATERAL ------------------>
     <main class="container">
       <div class="layout-blog">
         <article class="coluna-principal">
             <div id="listaProdutos" class="produtos"></div>
-            <div id="overlay"></div>
         </article>
 
         <aside class="coluna-lateral">
