@@ -72,8 +72,13 @@ const produtos = [
     descricao: "Boné trucker preto básico com ajuste traseiro."}
 ]
 
-const lista = document.getElementById("listaProdutos");
+// Array do carrinho
+const carrinho = [];
 
+const lista = document.getElementById("listaProdutos");
+const totalCarrinho = document.getElementById("total-carrinho");
+
+// Renderizar lista de produtos disponiveis
 produtos.forEach((item, index) => {
     const card = document.createElement("div");
     card.classList.add("card");
@@ -86,11 +91,11 @@ produtos.forEach((item, index) => {
     nome.textContent = item.nome;
 
     const preco = document.createElement("p");
-    preco.textContent = "Preço R$ " + item.preco.toFixed(2);
+    preco.textContent = "Preço R$ " + item.preco.toFixed(2).replace(".", ",");
 
     const botao = document.createElement("button");
     botao.textContent = "Comprar";
-    botao.addEventListener("click", () => addCart(item.imagem, item.nome, item.preco, item.preco, item.botao));
+    botao.addEventListener("click", () => addCart(item));
     
     const descricao = document.createElement("p");
     descricao.classList.add("descricao");
@@ -110,7 +115,7 @@ produtos.forEach((item, index) => {
     lista.appendChild(card);
 })
 
-// Carrinho
+// Abrir carrinho
 const abrirCart = document.getElementById("carrinho");
 const closeCart = document.getElementById("closeCart");
 const cartSidebar = document.getElementById("cartSidebar");
@@ -130,30 +135,139 @@ abrirCart.addEventListener("click", openSidebar);
 closeCart.addEventListener("click", closeSidebar);
 overlay.addEventListener("click", closeSidebar);
 
+// Adiciona produto no carrinho
 function addCart(item) {
-    const listaCart = document.getElementById("cart-lista");
+
+    const listaCart = document.getElementById("cartLista");
+
+    const produtoExiste = carrinho.find(prod => prod.nome === item.nome);
+
+    if (produtoExiste) {
+        produtoExiste.quantidade++;
+        atualizarCarrinho();
+        return;
+    }
+
+    carrinho.push({ ...item, quantidade: 1 });
     
-    const trCart = document.createElement("tr");
-    trCart.classList.add("tr");
+    atualizarCarrinho();
+
+}
+
+function atualizarCarrinho () {
+    const listaCart = document.getElementById("cartLista");
+    listaCart.innerHTML = "";
+
+    carrinho.forEach((produto, index) => {
+ 
+        const cardCart = document.createElement("div");
+        cardCart.classList.add("cartItem");
+
+        //imagem
+        const imgCart = document.createElement("img");
+        imgCart.src = produto.imagem;
+        imgCart.alt = produto.nome;
+
+        //Nome do produto
+        const produtoCart = document.createElement("p");
+        produtoCart.classList.add("produto");
+        produtoCart.textContent = produto.nome;
+
+        //Quantidade
+        let quantidade = 1;
+        const quantidadeDiv = document.createElement("div");
+        quantidadeDiv.classList.add("quantity");
+
+        const btnMenos = document.createElement("button");
+        btnMenos.textContent = "-";
+        btnMenos.addEventListener("click", () => {
+            if (produto.quantidade > 1) {
+                produto.quantidade--;
+            } else {
+                carrinho.splice(index, -1);
+            }
+            atualizarCarrinho();
+        });
+
+        const spanQtd = document.createElement("span");
+        spanQtd.textContent = produto.quantidade;
+
+        const btnMais = document.createElement("button");
+        btnMais.textContent = "+";
+        btnMais.addEventListener("click", () => {
+            produto.quantidade++;
+            atualizarCarrinho();
+        });
+
+        quantidadeDiv.appendChild(btnMenos);
+        quantidadeDiv.appendChild(spanQtd);
+        quantidadeDiv.appendChild(btnMais);
+
+        //preço
+        const precoCart = document.createElement("p");
+        precoCart.classList.add("p");
+        precoCart.textContent = "R$ " + (produto.preco * produto.quantidade).toFixed(2).replace(".", ",");
+
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "Remover";
+        btnRemover.addEventListener("click", () => {
+            carrinho.splice(index, 1);
+            atualizarCarrinho();
+        });
+
+        //Monta o card
+        cardCart.appendChild(imgCart);
+        cardCart.appendChild(produtoCart);
+        cardCart.appendChild(quantidadeDiv);
+        cardCart.appendChild(precoCart);
+        cardCart.appendChild(btnRemover);
+
+        listaCart.appendChild(cardCart);
+
+});
+
+    calcularTotal();
+}
+
+function calcularTotal () {
+    const total = carrinho.reduce((soma, produto) => soma + (produto.preco * produto.quantidade), 0);
+    const quantidadeTotal = carrinho.reduce((soma, produto) => soma + produto.quantidade, 0);   
+
+    const summaryDiv = document.getElementById("total-carrinho");
+    summaryDiv.innerHTML = "";
+
+    if (carrinho.length === 0) {
+        summaryDiv.innerHTML = "<p> Seu carrinho está vazio. </p>";
+        return;
+    }
+
+    const cardSummary = document.createElement("div");
+    cardSummary.classList.add("resumo");
+
+    const textSummary = document.createElement("span");
+    textSummary.textContent = "Resumo";
+
+    const subtotalSummary = document.createElement("p");
+    subtotalSummary.textContent = "Subtotal: (" + quantidadeTotal + " itens): R$ " + total.toFixed(2).replace(".", ",");
+
+    const freteSummary = document.createElement("p");
+    freteSummary.textContent = "Frete: grátis";
+
+    const totalSummary = document.createElement("span");
+    totalSummary.classList = "totalCalculado";
+    totalSummary.textContent = "Total: R$ " + total.toFixed(2).replace(".",",");
+
+    const btnSummary = document.createElement("button");
+    btnSummary.classList.add("checkout");
+    btnSummary.textContent = "Finalizar Compra";
+
+    cardSummary.appendChild(textSummary);
+    cardSummary.appendChild(subtotalSummary);
+    cardSummary.appendChild(freteSummary);
+    cardSummary.appendChild(totalSummary);
+    cardSummary.appendChild(btnSummary);
     
-    const imgCartid = document.createElement("td");
-    const imgCart = document.createElement("img");
-    imgCart.src = item.imagem;
-    imgCart.alt = item.nome;
-    imgCart.width = 50;
-    imgCartid.appendChild(imgCart);
+    summaryDiv.appendChild(cardSummary);
 
-    const produtoCart = document.createElement("td");
-    produtoCart.classList.add("td");
-    produtoCart.textContent = "R$ " + item.produto.toFixed(2);
-
-    const precoCart = document.createElement("td");
-    precoCart.classList.add("td");
-    precoCart.textContent = item.preco;
-
-    trCart.appendChild(imgCartid);
-    trCart.appendChild(produtoCart);
-    trCart.appendChild(precoCart);
-
-    listaCart.appendChild(trCart);
+    document.getElementById("carrinho").textContent = `🛒 Cart (${quantidadeTotal})`;
 }

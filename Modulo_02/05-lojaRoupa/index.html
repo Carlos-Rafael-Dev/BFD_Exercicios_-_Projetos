@@ -45,31 +45,35 @@
     <div id="overlay" class="overlay"></div>
 
     <!-- sidebar carrinho -->
-    <div id="cartSidebar" class="cart-sidebar">
-      <div class="cart-header">
-        <h2>Shopping Cart</h2>
-        <span id="closeCart" class="close-cart">&times;</span>
-      </div>
-      <div class="cart-conteudo">
-        <table id="cart-lista">
+    <section id="cartSidebar" class="cart-sidebar">
+      <section class="cart-header">
+        <div class="cart-title">
+          <h2>Shopping Cart</h2>
+          <span id="closeCart" class="close-cart">&times;</span>
+        </div>
+        <div id="cartHeader" class="cartHeader">
+          <p>Produto</p>
+          <p class="qtd">Quantidade</p>
+          <p class="preco">Preço</p>
+        </div>
+        <div class="cart-lista" id="cartLista">
+          <div class="cartItem" id="cart-item"></div>
+        </div>
+      </section>
 
-        </table>
-      </div>
-      <div class="summary">
-        <p>Subtotal: </p>
-        <p>Frete: </p>
-        <p>Total: </p>
-        <button class="checkout">checkout</button>
-      </div>
-    </div>
+      <section class="totalCarrinho">
+        <div id="total-carrinho"></div>
+      </section>
+    </section>
 
-    <!-- ------------ BARRA LATERAL ------------------>
+    <!-- --------Javascript para add produtos ------------------>
     <main class="container">
       <div class="layout-blog">
         <article class="coluna-principal">
             <div id="listaProdutos" class="produtos"></div>
         </article>
 
+    <!--BARRA LATERAL-->
         <aside class="coluna-lateral">
           <section id="perfil-autor">
             <div class="foto-perfil"></div>
