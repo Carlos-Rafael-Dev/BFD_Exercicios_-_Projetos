@@ -55,7 +55,7 @@ header {
     object-fit: contain;
 }
 
-#botao {
+#darkModeBtn {
     background-color: var(--background);
     width: 3rem;
     margin-right: 3rem;
@@ -172,4 +172,47 @@ h2 {
     border-bottom: 2px solid;
     border-right: 2px solid;
     cursor:context-menu;
+}
+
+/* dark modo */
+
+body.dark-mode {
+    background: #121212;
+    color: white;
+    transition: background 0.4s, color 0.4s;
+}
+
+body.dark-mode header {
+    background: #121212;
+}
+
+body.dark-mode main {
+    background: black;
+}
+
+body.dark-mode .item {
+    background: #757575;
+    border-bottom: 2px solid #5f5f5f;
+    box-shadow: none;
+}
+
+body.dark-mode #darkModeBtn {
+    background: url(./assets/modo-escuro.png) no-repeat center;
+    background-size: contain;
+}
+
+body.dark-mode .item input[type="checkbox"]:checked + label {
+    text-decoration: line-through;
+    color: #c7c7c7;
+}
+
+body.dark-mode #contador {
+    background-color: #757575;
+    border-bottom: 2px solid #464646;
+    border-right: 2px solid #464646;
+}
+
+body.dark-mode .listaTarefas {
+    border-bottom: #464646;
+    border-right: #464646;
 }

@@ -3,52 +3,71 @@ const opcoes = {year: "numeric", month: "long", day: "numeric"};
 const dataFormatada = "Hoje, " + dataAtual.toLocaleDateString("pt-BR", opcoes);
 document.getElementById("data-atual").textContent = dataFormatada;
 
-function contadorPedencias (){
+function contadorPedencias () {
     const pedente = document.querySelectorAll('.item input[type="checkbox"]:not(:checked)').length;
 
     document.getElementById("contador").textContent = pedente;
 }
 
-function contadorPedenciasExclusao() {
-    const pedente = document.querySelectorAll('.item input[type="checkbox"]:not(:checked)').length;
-    document.getElementById("contador").textContent = pedente -1;
-}
-
 function addTarefa () {
+    
     const tarefaInput = document.getElementById("caixaTexto");
     const texto = tarefaInput.value;
     
-    const listaContainer = document.querySelector(".listaTarefas");
+    if (texto === "") {
+        return;
+    } else {
+        const listaContainer = document.querySelector(".listaTarefas");
 
-    const lista = document.createElement("li");
-    lista.className ="item";
+        const lista = document.createElement("li");
+        lista.className ="item";
 
-    const id = "task" + Date.now();
+        const id = "task" + Date.now();
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = id;
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = id;
+        checkbox.addEventListener("click", contadorPedencias);
 
-    const label = document.createElement("label");
-    label.htmlFor = id;
-    label.textContent = texto;
+        const label = document.createElement("label");
+        label.htmlFor = id;
+        label.textContent = texto;
 
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "delete";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "delete";
 
-    lista.append(checkbox, label, button);
-    listaContainer.appendChild(lista);
+        lista.append(checkbox, label, button);
+        listaContainer.appendChild(lista);
 
-    tarefaInput.value = "";
+        tarefaInput.value = "";
 
-    button.addEventListener("click", () => {
-        setTimeout(() => lista.remove(), 120);
-        contadorPedenciasExclusao();
-    })
+        button.addEventListener("click", () => {
+            setTimeout(() => {
+                lista.remove(); 
+                contadorPedencias();
+            }, 120);
+        });
 
-    checkbox.addEventListener("change", contadorPedencias);
-
-    contadorPedencias();
+        contadorPedencias();
+    }
 }
 
+// Habilitar ENTER para adicionar tarefa
+const tarefaInput = document.getElementById("caixaTexto");
+tarefaInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        addTarefa();
+    }
+});
+
+const btn = document.getElementById("darkModeBtn");
+const icon = document.getElementById("icon");
+
+function darkMode () {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+
+    icon.src = isDark ? "./assets/modo.png" : "./assets/modo-escuro.png";
+    icon.alt = isDark ? "Ativar claro" : "Ativar escuro";
+}
