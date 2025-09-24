@@ -1,0 +1,68 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    transition: background-color 0.2s ease;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+.container img {
+    height: 20%;
+    width: 50%;
+}
+
+.button {
+    margin: 20px;
+    color: white;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+    background-color: #FFA12B;
+    position: relative;
+    padding: 16px 36px;
+    cursor: pointer;
+
+    text-shadow: 0px 1px 0px #000;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    -webkit-box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+    -moz-box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+    box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+
+    border-radius: 5px;
+    display: inline-block;
+}
+
+  .button:active {
+    top: 10px;
+    background-color: #F78900;
+    box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100; 
+}
+
+  .button:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    padding: 4px;
+    position: absolute;
+    bottom: -12px;
+    left: -4px;
+    z-index: -1;
+    background-color: #2B1800;
+    border-radius: 5px;
+}
+
+  /* contêiner para alinhar os botões em linha */
+  .container {
+    display: flex;
+    justify-content: center; /* centraliza */
+    gap: 20px; /* espaçamento entre botões */
+    align-items: center;
+}
