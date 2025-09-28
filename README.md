@@ -8,6 +8,9 @@ O objetivo é documentar minha evolução em tecnologia, programação e soluç�
 - 🖥️ Front-end: HTML, CSS, JavaScript
 - 🛠️ Ferramentas: Git/GitHub, VS Code, Figma
 
+## Projetos em andamento
+- [Loja da Livia](./Modulo_02/05-lojaRoupa/index.html)
+
 ## 👨‍💻 Autor
 - *Carlos Rafael*
 - 📍 Campina Grande - PB
