@@ -1,0 +1,193 @@
+
+/* Import a retro pixel font (Press Start 2P). If offline, fallback to monospace. */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root{
+  --cell-size: 20px;       /* cell size; board will be 30 * cell-size */
+  --board-cells: 30;
+  --board-size: calc(var(--cell-size) * var(--board-cells));
+  --ui-accent: #ffd86b;
+  --accent-dark: #e6b341;
+  --snake-head: #2fe27a;
+  --snake-body: #1fb05a;
+  --food-color: #ff5f5f;
+  --glass-overlay: rgba(0,0,0,0.06);
+}
+
+/* Page background: layered "pixel forest" using repeating gradients */
+html,body{
+  height:100%;
+}
+
+body {
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family: 'Press Start 2P', monospace;
+  -webkit-font-smoothing: none;
+  background-image: url("floresta.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply, overlay, normal;
+  image-rendering: pixelated;
+  /* subtle vignette */
+  position:relative;
+  overflow:hidden;
+}
+
+/* Optional CRT/scanline overlay for retro vibe */
+body::after{
+  content:"";
+  pointer-events:none;
+  position:fixed;
+  inset:0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.03) 0 1px,
+    rgba(255,255,255,0.01) 1px 2px
+  );
+  mix-blend-mode: overlay;
+  opacity:0.6;
+}
+
+/* Wrapper centers the game and provides a framed panel */
+.wrapper{
+  width: calc(var(--board-size) + 40px);
+  max-width: calc(100vw - 32px);
+  padding: 18px;
+  box-sizing: border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
+  border: 6px solid rgba(0,0,0,0.6);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 2px 0 rgba(255,255,255,0.03);
+  backdrop-filter: blur(3px);
+  image-rendering: pixelated;
+  transform-origin:center;
+}
+
+/* Header / score area */
+.game-details{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  color: #f8f0c7;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+  font-size:12px;
+  padding: 4px 8px;
+  box-sizing:border-box;
+  border: 2px dashed rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+}
+
+/* Score badges */
+.score, .high-score{
+  padding:6px 8px;
+  border-radius:2px; /* keep subtle */
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
+  border:1px solid rgba(0,0,0,0.6);
+  color: var(--ui-accent);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.5);
+  font-size:11px;
+}
+
+/* Play board (grid) */
+.play-board{
+  width: var(--board-size);
+  height: var(--board-size);
+  display: grid;
+  grid-template-columns: repeat(var(--board-cells), var(--cell-size));
+  grid-template-rows: repeat(var(--board-cells), var(--cell-size));
+  background-color: rgba(20,40,20,0.4);
+  border: 6px solid rgba(0,0,0,0.7);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.7), inset 0 0 0 4px rgba(255,255,255,0.02);
+  position:relative;
+  image-rendering: pixelated; /* important for crisp pixel look when scaled */
+  overflow:hidden;
+}
+
+/* Add faint beveled tiles to emphasize grid (subtle, but pixel-feel) */
+.play-board::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(transparent 50%, rgba(255,255,255,0.01) 50%),
+    linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.03) 50%);
+  background-size: var(--cell-size) var(--cell-size);
+  pointer-events:none;
+  mix-blend-mode: overlay;
+  opacity:0.6;
+}
+
+/* Snake head and body — blocky and pixel-perfect */
+.head, .body-snake, .food, .tail {
+  width: calc(var(--cell-size) - 1px);
+  height: calc(var(--cell-size) - 1px);
+  image-rendering: pixelated;
+  box-sizing:border-box;
+  /* without border-radius to keep blocky/pixel aesthetic */
+}
+
+/* Head (distinct, slightly lighter + tiny highlight) */
+.head {
+  background: url("snake-head.png") center/contain;
+  background-repeat: no-repeat;
+  width: calc(var(--cell-size) + 20px);
+  height: calc(var(--cell-size) + 20px);
+}
+
+.head.cima {transform: rotate(180deg);}
+.head.baixo {transform: rotate(360deg);}
+.head.direita {transform: rotate(-90deg);}
+.head.esquerda {transform: rotate(90deg);}
+
+.body-snake {
+    background: url("snake-body.png") center/contain;
+    background-repeat: no-repeat;
+    width: calc(var(--cell-size) + 20px);
+    height: calc(var(--cell-size) + 20px);
+  }
+
+.food {
+    background: url("comida.png") center/contain no-repeat;
+    width: calc(var(--cell-size) + 10px);
+    height: calc(var(--cell-size) + 10px);
+}
+
+/* If JS uses non-distinct class for body, style generic head as body too */
+.head:not(:first-child), .body {
+  background: linear-gradient(180)
+}
+
+.controls { width:100%; display:flex; gap:8px; justify-content:center; align-items:center; }
+.controls i {
+  width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  border:2px solid rgba(0,0,0,0.6); background: rgba(0,0,0,0.3); color: var(--ui-accent);
+  user-select:none;
+}
+
+#toggle-music {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ui-accent);
+  margin-left: 8px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+#toggle-music:hover {
+  transform: scale(1.2);
+  color: #fff176; /* tom diferente no hover */
+}
+
+#toggle-music.off {
+  color: #888; /* cor quando desligado */
+}

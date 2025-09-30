@@ -12,6 +12,7 @@ let velocidadeX = 0, velocidadeY = 0; //vetor de movimento
 let corpoCobra = []; //alimenta o corpo
 let idIntervalo; //intervalo de tempo
 let pontuacao = 0;
+let direcaoAtual = "direita";
 
 let recorde = localStorage.getItem("high-score") || 0; //guardar o recorde
 elementoRecorde.innerText = `High score: ${recorde}`;
@@ -36,18 +37,22 @@ const mudarDirecao = event => {
     if(event.key === "ArrowUp" && velocidadeY !== 1){
         velocidadeX = 0;
         velocidadeY = -1;
+        direcaoAtual = "cima";
     }
     else if (event.key === "ArrowDown" && velocidadeY !== -1){
         velocidadeX = 0;
         velocidadeY = 1;
+        direcaoAtual = "baixo";
     }
     else if (event.key === "ArrowLeft" && velocidadeX !== 1){
         velocidadeX = -1
         velocidadeY = 0
+        direcaoAtual = "esquerda";
     }
     else if (event.key === "ArrowRight" && velocidadeX !== -1){
         velocidadeX = 1;
         velocidadeY = 0;
+        direcaoAtual = "direita";
     }
 }
 
@@ -63,6 +68,11 @@ const iniciarJogo = () => {
     if(cobraX === comidaX && cobraY === comidaY){
         atualizarPosicaoComida();
         corpoCobra.push([comidaX, comidaY]);
+
+        //tocar som ao comer comida
+        const efeito = document.getElementById("efeito-comida");
+        efeito.currentTime = 0; // garante que reinicia sempre
+        efeito.play();
         
         pontuacao++
         recorde = pontuacao >= recorde ? pontuacao : recorde;
@@ -86,16 +96,20 @@ const iniciarJogo = () => {
         return jogoAcabou = true;
     }
 
-    for(let i = 0; i < corpoCobra.length; i++) {
-        const segmentoX = corpoCobra[i][0];
-        const segmentoY = corpoCobra[i][1];
-
-        const classeSegmento = i === 0 ? "head" : "head";
-        html += `<div class="${classeSegmento}" style="grid-area: ${segmentoY} / ${segmentoX}"></div>`;
-        
-        if (i !== 0 && cobraX === segmentoX && cobraY === segmentoY){
-            jogoAcabou = true;
-        }
+        for (let i = 0; i < corpoCobra.length; i++) {
+            const segX = corpoCobra[i][0];
+            const segY = corpoCobra[i][1];
+            if (i === 0) {
+              // Cabeça com rotação
+              html += `<div class="head ${direcaoAtual}" style="grid-area: ${segY} / ${segX}"></div>`;
+            } 
+            else {
+              html += `<div class="body-snake" style="grid-area: ${segY} / ${segX}"></div>`;
+            }
+            
+            if (i !== 0 && cobraX === segX && cobraY === segY){
+                jogoAcabou = true;
+          }
 
         tabuleiro.innerHTML = html;
     }
@@ -104,3 +118,23 @@ const iniciarJogo = () => {
 atualizarPosicaoComida();
 idIntervalo = setInterval(() => iniciarJogo(), 300);
 document.addEventListener("keyup", mudarDirecao)
+
+//------------------MUSICA -------------------------
+const musica = document.getElementById("musica-fundo");
+const botaoMusica = document.getElementById("toggle-music");
+
+// Estado inicial
+let musicaAtiva = false;
+
+botaoMusica.addEventListener("click", () => {
+  if (musicaAtiva) {
+    musica.pause();
+    botaoMusica.classList.add("off");
+  } else {
+    musica.play();
+    botaoMusica.classList.remove("off");
+  }
+  musicaAtiva = !musicaAtiva;
+});
+
+
