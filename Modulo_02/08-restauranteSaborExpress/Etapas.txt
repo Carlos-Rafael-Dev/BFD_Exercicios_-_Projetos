@@ -1,0 +1,18 @@
+==== ETAPAS ====
+
+-----Figma-------
+-Pesquisa de referencias
+Estilo visual agil, moderno e de qualidade
+wireframe de baixa fidelidade - mobile/desktop (estudar)
+Design alta fidelidade - mobile/desktop
+
+-----Código-------
+(comentar no código)
+Estruturar html - header, hero e botão, cardapio, sobre nós, contato, rodapé
+codar CSS - responsivo
+Interatividade com JS:
+Lista com alguns produtos
+Exibir cardapio com categorias
+Abrir link do WhatsApp
+Menu mobile
+Sistema de favoritos
