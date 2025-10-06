@@ -28,9 +28,22 @@ const atualizarPosicaoComida = () => {
 // fim do jogo
 const lidarComFimDeJogo = () => {
     clearInterval(idIntervalo);
-    alert("Fim de jogo! Pressione OK para tentar novamente");
-    location.reload();
-}
+
+    // pausa a música de fundo
+    const musica = document.getElementById("musica-fundo");
+    musica.pause();
+  
+    // toca som de game over
+    const somGameover = document.getElementById("som-gameover");
+    somGameover.currentTime = 0;
+    somGameover.play();
+  
+    // aguarda o som terminar antes de recarregar
+    setTimeout(() => {
+      alert("Fim de jogo! Pressione OK para tentar novamente");
+      location.reload();
+    }, 2000); // 2 segundos para o som tocar antes do reload
+  };
 
 const mudarDirecao = event => {
 
@@ -137,4 +150,10 @@ botaoMusica.addEventListener("click", () => {
   musicaAtiva = !musicaAtiva;
 });
 
-
+// ======== Tela de carregamento ========
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loading-screen");
+    // Espera um pouco para garantir que tudo carregou e a animação de fadeOut rode
+    setTimeout(() => loader.style.display = "none", 2200);
+  });
+  
