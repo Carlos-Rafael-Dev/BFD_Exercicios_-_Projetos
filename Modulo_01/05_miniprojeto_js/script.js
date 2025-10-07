@@ -1,59 +1,95 @@
-var dataAtual = new Date()
-const opcoes = {year: "numeric", month: "long", day: "numeric"};
+// --- DATA ATUAL ---
+var dataAtual = new Date();
+const opcoes = { year: "numeric", month: "long", day: "numeric" };
 const dataFormatada = "Hoje, " + dataAtual.toLocaleDateString("pt-BR", opcoes);
 document.getElementById("data-atual").textContent = dataFormatada;
 
-function contadorPedencias () {
-    const pedente = document.querySelectorAll('.item input[type="checkbox"]:not(:checked)').length;
 
-    document.getElementById("contador").textContent = pedente;
+// --- CONTADOR DE PENDÊNCIAS ---
+function contadorPendencias() {
+    const pendente = document.querySelectorAll('.item input[type="checkbox"]:not(:checked)').length;
+    document.getElementById("contador").textContent = pendente;
 }
 
-function addTarefa () {
-    
+
+// --- SALVAR NO LOCALSTORAGE ---
+function salvarTarefas() {
+    const tarefas = [];
+    document.querySelectorAll(".item").forEach(item => {
+        const checkbox = item.querySelector("input[type='checkbox']");
+        const label = item.querySelector("label");
+        tarefas.push({
+            texto: label.textContent,
+            checked: checkbox.checked
+        });
+    });
+    localStorage.setItem("tarefas", JSON.stringify(tarefas));
+}
+
+
+// --- CARREGAR DO LOCALSTORAGE ---
+function carregarTarefas() {
+    const tarefasSalvas = JSON.parse(localStorage.getItem("tarefas")) || [];
+    tarefasSalvas.forEach(tarefa => {
+        criarTarefa(tarefa.texto, tarefa.checked);
+    });
+    contadorPendencias();
+}
+
+
+// --- CRIAR TAREFA (FUNÇÃO BASE) ---
+function criarTarefa(texto, checked = false) {
+    const listaContainer = document.querySelector(".listaTarefas");
+
+    const lista = document.createElement("li");
+    lista.className = "item";
+
+    const id = "task" + Date.now();
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = id;
+    checkbox.checked = checked;
+    checkbox.addEventListener("click", () => {
+        contadorPendencias();
+        salvarTarefas();
+    });
+
+    const label = document.createElement("label");
+    label.htmlFor = id;
+    label.textContent = texto;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "delete";
+
+    button.addEventListener("click", () => {
+        lista.remove();
+        contadorPendencias();
+        salvarTarefas();
+    });
+
+    lista.append(checkbox, label, button);
+    listaContainer.appendChild(lista);
+}
+
+
+// --- ADICIONAR NOVA TAREFA (USUÁRIO) ---
+function addTarefa() {
     const tarefaInput = document.getElementById("caixaTexto");
     const texto = tarefaInput.value;
-    
-    if (texto === "") {
-        return;
-    } else {
-        const listaContainer = document.querySelector(".listaTarefas");
+    const prioridade = document.getElementById("prioridade").value;
 
-        const lista = document.createElement("li");
-        lista.className ="item";
+    if (texto === "") return;
 
-        const id = "task" + Date.now();
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = id;
-        checkbox.addEventListener("click", contadorPedencias);
-
-        const label = document.createElement("label");
-        label.htmlFor = id;
-        label.textContent = texto;
-
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "delete";
-
-        lista.append(checkbox, label, button);
-        listaContainer.appendChild(lista);
-
-        tarefaInput.value = "";
-
-        button.addEventListener("click", () => {
-            setTimeout(() => {
-                lista.remove(); 
-                contadorPedencias();
-            }, 120);
-        });
-
-        contadorPedencias();
-    }
+    criarTarefa(`${texto} (${prioridade})`);
+    tarefaInput.value = "";
+    contadorPendencias();
+    salvarTarefas();
 }
 
-// Habilitar ENTER para adicionar tarefa
+
+// --- ENTER PARA ADICIONAR ---
 const tarefaInput = document.getElementById("caixaTexto");
 tarefaInput.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
@@ -61,13 +97,29 @@ tarefaInput.addEventListener("keydown", function(event) {
     }
 });
 
+
+// --- DARK MODE ---
 const btn = document.getElementById("darkModeBtn");
 const icon = document.getElementById("icon");
 
-function darkMode () {
+function darkMode() {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
 
-    icon.src = isDark ? "./assets/modo.png" : "./assets/modo-escuro.png";
+    icon.src = isDark ? "./assets/modo-escuro.png" : "./assets/modo.png";
     icon.alt = isDark ? "Ativar claro" : "Ativar escuro";
+
+    // salva modo escuro no localStorage
+    localStorage.setItem("darkMode", isDark);
 }
+
+
+// --- CARREGAR MODO ESCURO SALVO ---
+window.addEventListener("load", () => {
+    const isDark = JSON.parse(localStorage.getItem("darkMode"));
+    if (isDark) {
+        document.body.classList.add("dark-mode");
+        icon.src = "./assets/modo-escuro.png";
+    }
+    carregarTarefas();
+});

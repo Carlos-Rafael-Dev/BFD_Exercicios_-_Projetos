@@ -60,7 +60,6 @@ header {
     background-color: var(--background);
     width: 3rem;
     margin-right: 3rem;
-    background: url(/assets/modo.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -68,14 +67,24 @@ header {
 }
 
 main {
-    max-width: 900px;
-    width: 90%;
+    width: 100%;
+    height: auto;
     background-color: var(--background);
-    padding: 3rem 4.5rem;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.secao-tarefas {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-    flex-wrap: wrap;
+    border: 2px solid;
+    gap: 10px;
+    padding: 2rem;
+    width: 60%;
 }
 
 p {
@@ -94,7 +103,7 @@ input[type="text"] {
     width: 100%;
     padding: 0.6rem;
     font-family: "Silkscreen", sans-serif;
-    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-size: clamp(0.9vw, 1rem, 0.9rem);
     justify-content: center;
     flex: 1;
     min-width: 0;
@@ -157,7 +166,7 @@ h2 {
 .delete {
     width: 24px;
     height: 24px;
-    background: url("/assets/trash.png");
+    background: url("./assets/trash.png");
     background-size: contain;
     border: none;
     cursor: pointer;
@@ -183,6 +192,15 @@ img, .delete {
     cursor:context-menu;
 }
 
+@media (max-width: 850px) {
+    .secao-tarefas {
+        width: 100%;
+    }
+    .secao-perfis {
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
     main {
         padding: 1.5rem 1.5rem;
@@ -190,16 +208,26 @@ img, .delete {
 }
 
 @media (max-width: 480px) {
+    main {
+        padding: 0.2rem;
+    }
     .item {
         padding: 0.6rem;
     }
     .item label{
         font-size: 0.85rem;
     }
+    input[type="text"] {
+        font-size: 0.7rem;
+    }
+    #prioridade {
+        font-size: 0.6rem;
+        padding: 0.4rem 0.9rem;
+    }
 }
 
-/* dark modo */
 
+/* ============= dark modo ============*/
 body.dark-mode {
     background: #121212;
     color: white;
@@ -240,3 +268,78 @@ body.dark-mode .listaTarefas {
     border-bottom: #464646;
     border-right: #464646;
 }
+
+body.dark-mode .cartao .status{
+    color: #47a05a;
+}
+
+body.dark-mode .cartao h3 {
+    color: rgb(43, 96, 209);
+}
+
+/* =========SECÃO DOS MEMBROS============ */
+.secao-perfis{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid;
+    text-align: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.container {
+    display: table-row;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.cartao {
+    text-align: center;
+    padding: 0.9rem 1.5rem;
+}
+
+.cartao .cartao-foto {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+object-fit: cover;
+margin-bottom: 8px;
+border: 3px solid;
+}
+
+.cartao h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: blue;
+}
+
+.cartao p {
+    font-size: 14px;
+    color: #464646;
+}
+
+.cartao .status {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--plus);
+}
+
+.cartao.status.online{
+    background-color: #225c2e;
+}
+
+.cartao.status.away{
+    background-color: #5e5959;
+}
+
+.cartao.status.offline{
+    background-color: #ff0101;
+}
+
+#prioridade{
+    font-family: "Silkscreen", sans-serif;
+    padding: 0.8rem 1rem;
+}
+

@@ -10,36 +10,68 @@
     <body>
         <header>
             <div class="logotipo">
-                <img src="/assets/logo.png" alt="logotipo">
+                <img src="./assets/logo.png" alt="logotipo">
                 <h1>To Do List</h1>
             </div>
             <button id="darkModeBtn" onclick="darkMode()">
+                <img id="icon" src="./assets/modo.png" alt="Ativar escuro">
             </button>
         </header>
 
         <main>
-            <section>
-                <p id="data-atual"></p>
+            <section class="secao-tarefas">
+                <div>
+                    <p id="data-atual"></p>
+                </div>
+
+                <div class="addTarefas">
+                    <input type="text" id="caixaTexto" placeholder="Adicionar tarefa...">
+                    <select id="prioridade">
+                        <option value="alto">Alto</option>
+                        <option value="medio">Medio</option>
+                        <option value="baixo">Baixo</option>
+                    </select>
+
+                    <button type="submit" onclick="addTarefa()">+</button>
+                </div>
+
+                <section>
+                    <h2>Tarefas</h2>
+                    <!-- Aqui é adicionado as tarefas com javascript -->
+                    <ul class="listaTarefas">
+                    </ul>
+                </section>
+
+                <section class="pedente">
+                    <p>Tarefas pedentes: <span id="contador">0</span></p>
+                </section>
             </section>
 
-            <section class="addTarefas">
-                <input type="text" id="caixaTexto" placeholder="Adicionar tarefa...">
-                <button type="submit" onclick="addTarefa()">+</button>
+            <section class="secao-perfis">
+                <h2>Equipe</h2>
+                <div class="container">
+                    <div class="cartao">
+                        <img src="./assets/carlos.jpeg" width="50px" height="50px" alt="foto" class="cartao-foto" />
+                        <h3>Carlos</h3>
+                        <p> dev front end </p>
+                        <span class="status">Online</span>
+                    </div>
+                    <div class="cartao">
+                        <img src="./assets/albanita.jpg" width="50px" height="50px" alt="foto" class="cartao-foto" />
+                        <h3>Albanita</h3>
+                        <p> dev front end </p>
+                        <span class="status">Online</span>
+                    </div>
+                    <div class="cartao">
+                        <img src="./assets/pedro.jpg" width="50px" height="50px" alt="foto" class="cartao-foto" />
+                        <h3>Pedro</h3>
+                        <p> dev front end </p>
+                        <span class="status">Online</span>
+                    </div>
+                </div>
             </section>
-
-            <section>
-                <h2>Minhas tarefas</h2>
-                <!-- Aqui é adicionado as tarefas com javascript -->
-                <ul class="listaTarefas">
-                </ul>
-            </section>
-
-            <section class="pedente">
-                <p>Tarefas pedentes: <span id="contador">0</span></p>
-            </section>
-            <footer></footer>
-        </main>
-        
+    </main>
+    <footer>Todos os direitos reservados</footer>    
         <script type="text/javascript" src="script.js"></script>
     </body>
 
