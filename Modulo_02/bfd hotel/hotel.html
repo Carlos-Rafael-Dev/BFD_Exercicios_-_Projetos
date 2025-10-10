@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel BFD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-area">
+            <img src="./assets/logo.jpeg" alt="Logotipo do Hotel BFD">
+            <h1>Hotel BFD</h1>
+        </div>
+        <nav class="navegacao">
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Quartos</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="icons">
+            <i class="fa-solid fa-globe" title="Idioma"></i>
+            <i class="fa-solid fa-headset" title="Atendimento"></i>
+            <i class="fa-solid fa-user" title="Login"></i>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>Reserve o seu quarto agora!</h2>
+        <p>Encontre o quarto perfeito para a sua estadia.</p>
+    </section>
+
+    <section class="rooms">
+        <div class="container">
+            <h2>Quartos Disponíveis</h2>
+            <div class="room">
+                <img src="./assets/suite-stand.jpg" alt="Quarto 1">
+                <h3>Quarto Executivo</h3>
+                <p>R$ 350 por noite</p>
+                <button>Reservar Agora</button>
+            </div>
+            <div class="room">
+                <img src="./assets/suite master.jpg" alt="Quarto 2">
+                <h3>Suíte Master</h3>
+                <p>R$ 550 por noite</p>
+                <button>Reservar Agora</button>
+            </div>
+            <div class="room">
+                <img src="./assets/suite-varanda.jpg" alt="Quarto 3">
+                <h3>Quarto Standard</h3>
+                <p>R$ 200 por noite</p>
+                <button>Reservar Agora</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="reservation">
+        <div class="container">
+            <h2>Faça sua Reserva</h2>
+            <form action="#" method="post">
+                <label for="check-in">Data de Check-in:</label>
+                <input type="date" id="check-in" name="check-in" required>
+
+                <label for="check-out">Data de Check-out:</label>
+                <input type="date" id="check-out" name="check-out" required>
+
+                <label for="room">Escolha o Quarto:</label>
+                <select id="room" name="room" required>
+                    <option value="executivo">Quarto Executivo</option>
+                    <option value="suite-master">Suíte Master</option>
+                    <option value="standard">Quarto Standard</option>
+                </select>
+
+                <button type="submit">Reservar</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Hotel BFD. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

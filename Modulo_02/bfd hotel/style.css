@@ -1,0 +1,284 @@
+/* === RESET === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Playfair Display", serif;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+}
+
+/* === NAVBAR === */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #660000;
+    padding: 1rem 0.8rem;
+    border-bottom: 2px solid #d4af37;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-area img {
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.logo-area h1 {
+    color: #d4af37;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    font-weight: 400;
+}
+
+.navegacao ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navegacao a {
+    text-decoration: none;
+    color: #d4af37;
+    font-weight: 600;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navegacao a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+}
+
+/* Ícones da navbar */
+.icons {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.icons i {
+    color: #d4af37;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icons i:hover {
+    color: #fff;
+    transform: scale(1.2);
+}
+
+/* === HERO === */
+.hero {
+    position: relative;
+    background: url("./assets/hero.jpg") center/cover no-repeat;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero h2,
+.hero p {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    color: #d4af37;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+/* === ROOMS CAROUSEL === */
+.rooms {
+    background-color: #f8f8f8;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.rooms h2 {
+    font-size: 2rem;
+    color: #660000;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #d4af37;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.container {
+    display: flex;
+    overflow-x: auto;
+    gap: 2rem;
+    scroll-behavior: smooth;
+    padding: 1rem;
+}
+
+.container::-webkit-scrollbar {
+    height: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 5px;
+}
+
+.room {
+    flex: 0 0 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.room:hover {
+    transform: translateY(-5px);
+}
+
+.room img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.room h3 {
+    font-size: 1.4rem;
+    color: #660000;
+    margin: 1rem 0 0.5rem;
+}
+
+.room p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+/* === BOTÕES COM BRILHO DOURADO === */
+.room button,
+.reservation button {
+    position: relative;
+    overflow: hidden;
+    background-color: #d4af37;
+    color: #660000;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.room button {
+    margin-bottom: 1.4rem;
+}
+
+.room button::before,
+.reservation button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    transition: all 0.6s ease;
+    z-index: 0;
+}
+
+.room button:hover::before,
+.reservation button:hover::before {
+    left: 100%;
+}
+
+/* === DIFERENCIAÇÃO NO HOVER DOS BOTÕES === */
+.room button:hover {
+    background-color: #660000;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+}
+
+.reservation button:hover {
+    background-color: #bfa334;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+}
+
+/* === RESERVATION FORM === */
+.reservation {
+    background-color: #660000;
+    color: #fff;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.reservation h2 {
+    color: #d4af37;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.reservation form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.reservation label {
+    font-weight: 600;
+    color: #fff;
+}
+
+.reservation input,
+.reservation select {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 5px;
+    border: 1px solid #d4af37;
+    outline: none;
+    font-size: 1rem;
+}
+
+/* === FOOTER === */
+footer {
+    background-color: #330000;
+    color: #d4af37;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+}
