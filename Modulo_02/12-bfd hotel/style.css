@@ -1,0 +1,376 @@
+/* === RESET === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Playfair Display", serif;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* === NAVBAR === */
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #660000;
+    padding: 1rem 2.5rem;
+    border-bottom: 2px solid #d4af37;
+    gap: 1rem;
+    position: relative;
+}
+
+/* logo area */
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+}
+
+.logo-area img {
+    height: 56px;
+    width: auto;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.logo-area h1 {
+    color: #d4af37;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* navigation links (desktop) */
+.navegacao {
+    margin-left: 1rem;
+    flex: 1 1 auto;
+}
+
+.navegacao ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    justify-content: center;
+}
+
+.navegacao a {
+    text-decoration: none;
+    color: #d4af37;
+    font-weight: 600;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.navegacao a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(212,175,55,0.8);
+}
+
+/* icons area */
+.icons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+}
+
+.icons i {
+    color: #d4af37;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.icons i:hover {
+    color: #fff;
+    transform: scale(1.18);
+}
+
+.menu-button {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #d4af37;
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    transition: transform 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+.menu-button:hover {
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 1.5rem;
+    background: #660000;
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    padding: 0.6rem 0.8rem;
+    z-index: 80;
+    min-width: 160px;
+}
+
+.mobile-menu a {
+    display: block;
+    color: #d4af37;
+    padding: 0.5rem 0.6rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+.mobile-menu a:hover {
+    background: rgba(212,175,55,0.06);
+    color: #fff;
+}
+
+/* === HERO === */
+.hero {
+    position: relative;
+    background: url("./assets/hero.jpg") center/cover no-repeat;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.6);
+}
+
+.hero h2,
+.hero p {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h2 {
+    font-size: 3.2rem; /* enlarged as you requested */
+    color: #d4af37;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    line-height: 1.02;
+}
+
+.hero p {
+    font-size: 1.4rem;
+    color: #fff;
+    max-width: 900px;
+}
+
+/* === ROOMS CAROUSEL === */
+.rooms {
+    background-color: #f8f8f8;
+    padding: 3.5rem 1.5rem;
+    text-align: center;
+}
+
+.rooms h2 {
+    font-size: 2rem;
+    color: #660000;
+    margin-bottom: 1.6rem;
+    border-bottom: 2px solid #d4af37;
+    display: inline-block;
+    padding-bottom: 0.4rem;
+}
+
+.container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.6rem;
+    scroll-behavior: smooth;
+    padding: 0.8rem;
+}
+
+.container::-webkit-scrollbar {
+    height: 10px;
+}
+.container::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 6px;
+}
+
+.room {
+    flex: 0 0 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+    transition: transform 0.28s ease;
+}
+
+.room:hover { transform: translateY(-6px); }
+
+.room img { width:100%; height:200px; object-fit:cover; }
+
+.room h3 {
+    font-size: 1.25rem;
+    color: #660000;
+    margin: 0.9rem 0 0.4rem;
+    padding: 0 1rem;
+}
+
+.room p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+/* === BOTÕES COM BRILHO DOURADO === */
+.room button,
+.reservation button {
+    position: relative;
+    overflow: hidden;
+    background-color: #d4af37;
+    color: #660000;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.28s ease;
+    z-index: 1;
+    display: inline-block;
+    margin: 0.6rem 1rem 1.2rem;
+}
+
+.room button::before,
+.reservation button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-12deg);
+    transition: left 0.55s cubic-bezier(.2,.9,.3,1);
+    z-index: 0;
+}
+
+.room button:hover::before,
+.reservation button:hover::before {
+    left: 140%;
+}
+
+.room button:hover {
+    background-color: #660000;
+    color: #fff;
+    box-shadow: 0 0 18px rgba(212,175,55,0.7);
+}
+
+.reservation button:hover {
+    background-color: #bfa334;
+    color: #fff;
+    box-shadow: 0 0 18px rgba(212,175,55,0.85);
+}
+
+/* === RESERVATION FORM === */
+.reservation {
+    background-color: #660000;
+    color: #fff;
+    padding: 3.5rem 1.2rem;
+    text-align: center;
+}
+
+.reservation h2 {
+    color: #d4af37;
+    font-size: 2rem;
+    margin-bottom: 1.6rem;
+}
+
+.reservation form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.reservation label {
+    font-weight: 600;
+    color: #fff;
+    align-self: flex-start;
+}
+
+.reservation input,
+.reservation select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #d4af37;
+    outline: none;
+    font-size: 1rem;
+}
+
+/* === FOOTER === */
+footer {
+    background-color: #330000;
+    color: #d4af37;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* === RESPONSIVE === */
+/* tablet */
+@media (max-width: 992px) {
+    .hero h2 { font-size: 2.8rem; }
+    .hero p { font-size: 1.18rem; }
+    .room { flex: 0 0 260px; }
+}
+
+/* mobile */
+@media (max-width: 768px) {
+
+    .navbar { padding: 0.6rem 1rem; align-items: center;}
+    .logo-area h1 { font-weight: 200;}
+    .logo-area { order: 1; flex: 0 0 auto; }
+    .icons { order: 2; justify-content: center; flex: 1 1 auto; }
+    .navegacao { order: 3; display: none; }
+    .menu-button { display: inline-flex; order: 4; flex: 0 0 auto; }
+    .hero { height: 60vh; padding: 0 1rem; }
+    .hero h2 { font-size: 3rem; }
+    .hero p { font-size: 1.8rem; }
+    .room { flex: 0 0 85%; margin: 0 auto; }
+    .reservation { padding: 2.5rem 0.9rem;}
+    .reservation h2 { text-align: left; width: 100%; padding: 0 1rem; box-sizing: border-box; }
+    .reservation form { width: 100%; max-width: none; padding: 0 1rem; align-items: stretch; }
+    .reservation label { align-self: stretch; margin-left: 0.05rem; }
+    .reservation input, .reservation select, .reservation button { width: 100%; box-sizing: border-box;}
+    .reservation button {margin-left: 0; font-size: 1.2rem;}
+    .mobile-menu { right: 1rem; left: auto; top: calc(100% + 8px); min-width: 160px; }
+}
+
+/* telas menores */
+@media (max-width: 480px) {
+    .logo-area img { height: 48px; }
+    .logo-area h1 { display: none; }
+    .icons {justify-content: end;}
+    .hero h2 { font-size: 2.4rem; font-weight: bold;}
+    .hero p { font-size: 1.4rem; padding-left: 12px; padding-right: 12px;}
+    .container h2 { font-size: 0.9rem;}
+    .reservation h2 { font-size: 1.6rem; padding: 0 0.9rem; text-align: center; }
+    .reservation button { font-size: 1.2rem; }
+    .container-reservation { display: flex; flex-direction: column; }
+}
