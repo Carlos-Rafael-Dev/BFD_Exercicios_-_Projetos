@@ -132,6 +132,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     padding: 20px;
+    align-items: stretch;
   }
 
   .card {
@@ -143,6 +144,10 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
   }
 
   .card:hover {
@@ -152,7 +157,7 @@ body {
 
   .card img {
     max-width: 100%;
-    height: 200px;
+    height: 240px;
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -183,6 +188,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    width: 100%;
   }
 
   .card button:hover {
@@ -213,109 +219,103 @@ body {
     visibility: visible;
   }
 
+
+  /* Usando tabela no carrinho */
+  .cart-title h2 {
+    padding-left: 12px;
+    font-size: 1.2rem;
+  }
+
+  .produto-cart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+  
+  .produto-cart .miniatura {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .cart-table th, .cart-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .cart-table th {
+    background: #f4f4f4;
+    font-weight: normal;
+    font-size: 0.8rem;
+  }
+
+  .cart-table td {
+    text-align: left;
+    font-size: 0.8rem;
+  }
+
+  .cart-table td span {
+    padding: 0.4rem;
+  }
+  
+  .cart-table button {
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  
+  .cart-table button:hover {
+    background: #333;
+  }
+
   /* Sidebar carrinho*/
   .cart-sidebar {
     position: fixed;
+    font-family: 'Segoe UI';
     top: 0;
-    right: -750px;
-    width: 750px;
+    right: -780px;
+    width: 780px;
     height: 100%;
     background: #fff;
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
     transition: right 0.4s ease;
-    z-index: 2000;
+    z-index: 3000;
+    overflow-y: auto;
     display: flex;
-    flex-direction: row;
   }
-
+  
   .cart-sidebar.active {
     right: 0;
   }
 
   .cart-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 110vw;
-  }
-
-  .cart-title {
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid #e6e6e6;
-    justify-content: space-between;
-    gap: 8rem;
-  }
-
-  .cart-title h2 {
-    text-align: left;
-  }
-
-  .close-cart {
-    font-size: 28px;
-    cursor: pointer;
-    padding: 1rem;
-    padding-left: 3rem;
-  }
-
-  .cart-lista {
-    width: 100%;
-  }
-
-  .cartHeader {
-    display: flex;
-    flex-direction: row;
-    gap: 3.8rem;
-    text-align: center;
-    font-size: 12px;
-    padding-top: 0.6rem;
-    padding-bottom: 1rem;
-  }
-
-  .cartItem {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
-    gap: 1.4rem;
-    font-size: small;
-    padding-left: 0.8rem;
-  }
-
-  .cartItem img {
-    width: 8%;
-    height: 20%;
-    padding: 0.6rem;
-  }
-
-  .cartItem p {
-    margin: 0;
-  }
-
-  .cartItem .quantity {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .cartItem .quantity button {
-    width: 22px;
-    height: 22px;
-    border: 1px solid #a1a1a1;
-    background: #eee;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    justify-content: center;
-    padding: 1px;
+    width: 1400px;
   }
 
   .totalCarrinho {
+    position: sticky;
+    bottom: 0;
     background: #f0f0f0;
-    width: 85vw;
-    max-width: 1000px;
+    width: 96%;
+    border-top: 1px solid #ddd;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    overflow-y: auto;
   }
 
   .resumo {
@@ -336,6 +336,8 @@ body {
     font-size: 1rem;
   }
 
+
+
   .totalCalculado {
     font-weight: 700;
     font-size: 1.2rem;
@@ -343,6 +345,34 @@ body {
     border-top: 1px solid #dfdfdf;
   }
 
+  .close-cart {
+    font-size: 1.8rem;
+    padding-right: 22px;
+    position: absolute;
+    left: 85%;
+    top: 0.5%;
+    cursor: pointer;
+  }
+
+
+
+  #total-carrinho {
+    margin-top: 15%;
+    text-align: left;
+    box-sizing: border-box;
+  }
+
+  #total-carrinho span {
+    padding-top: 0;
+    padding-bottom: 1rem;
+  }
+
+  .resumo .totalCalculado {
+    margin-top: 100%;
+    text-align: right;
+    font-weight: 600;
+
+  }
 
   .checkout {
     width: 100%;
@@ -355,9 +385,39 @@ body {
     border-radius: 6px;
   }
 
+
   .checkout:hover {
     background: #333;
   }
+
+  /* Mensagem flutuante (toast) */
+  .mensagem-adicionado {
+    position: fixed;
+    font-family: 'Segoe UI';
+    top: 80px;
+    right: 20px;
+    background-color: #15b879;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    z-index: 4000;
+  }
+
+  /* Quando a mensagem estiver ativa */
+  .mensagem-adicionado.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+
+
 
   /* Navegação */
   .navegacao {

@@ -46,22 +46,27 @@
 
     <!-- sidebar carrinho -->
     <section id="cartSidebar" class="cart-sidebar">
-      <section class="cart-header">
+      <div class="cart-header">
         <div class="cart-title">
           <h2>Shopping Cart</h2>
-          <span id="closeCart" class="close-cart">&times;</span>
+          
         </div>
-        <div id="cartHeader" class="cartHeader">
-          <p>Produto</p>
-          <p class="qtd">Quantidade</p>
-          <p class="preco">Preço</p>
-        </div>
-        <div class="cart-lista" id="cartLista">
-          <div class="cartItem" id="cart-item"></div>
-        </div>
-      </section>
 
-      <section class="totalCarrinho">
+        <table id="cartTable" class="cart-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Preço</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="cartBody"></tbody>
+        </table>
+      </div>
+
+      <section class="totalCarrinho" id="totalCarrinho">
+        <span id="closeCart" class="close-cart">&times;</span>
         <div id="total-carrinho"></div>
       </section>
     </section>
@@ -155,6 +160,8 @@
       </div>
     </main>
     <script src="script.js"></script>
+    
+    <div id="mensagemAdicionado" class="mensagem-adicionado">Item adicionado ao carrinho!</div>
 
     <footer id="rodape-blog">
       <p>Lívia's Clothing brand &copy; 2025</p>

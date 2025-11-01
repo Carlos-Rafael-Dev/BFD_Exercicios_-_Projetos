@@ -124,6 +124,7 @@ const overlay = document.getElementById("overlay");
 function openSidebar () {
     cartSidebar.classList.add("active");
     overlay.classList.add("active");
+    calcularTotal()
 }
 
 function closeSidebar () {
@@ -145,89 +146,89 @@ function addCart(item) {
     if (produtoExiste) {
         produtoExiste.quantidade++;
         atualizarCarrinho();
+        mostrarMensagem("Quantidade atualizada!");
         return;
     }
 
     carrinho.push({ ...item, quantidade: 1 });
-    
     atualizarCarrinho();
-
+    mostrarMensagem("Item adicionado ao carrinho!");
 }
 
-function atualizarCarrinho () {
-    const listaCart = document.getElementById("cartLista");
-    listaCart.innerHTML = "";
-
+function atualizarCarrinho() {
+    const cartBody = document.getElementById("cartBody");
+    cartBody.innerHTML = "";
+  
     carrinho.forEach((produto, index) => {
- 
-        const cardCart = document.createElement("div");
-        cardCart.classList.add("cartItem");
+        const row = document.createElement("tr");
+  
+      // Produto (imagem + nome)
+        const tdProduto = document.createElement("td");
+        tdProduto.classList.add("produto-cart");
 
-        //imagem
-        const imgCart = document.createElement("img");
-        imgCart.src = produto.imagem;
-        imgCart.alt = produto.nome;
+        // Cria a imagem em miniatura
+        const imgMini = document.createElement("img");
+        imgMini.src = produto.imagem;
+        imgMini.alt = produto.nome;
+        imgMini.classList.add("miniatura");
 
-        //Nome do produto
-        const produtoCart = document.createElement("p");
-        produtoCart.classList.add("produto");
-        produtoCart.textContent = produto.nome;
+        // Cria o nome do produto
+        const nomeProduto = document.createElement("span");
+        nomeProduto.textContent = produto.nome;
 
-        //Quantidade
-        let quantidade = 1;
-        const quantidadeDiv = document.createElement("div");
-        quantidadeDiv.classList.add("quantity");
-
+        // Junta os dois elementos
+        tdProduto.appendChild(imgMini);
+        tdProduto.appendChild(nomeProduto);
+  
+        // Quantidade
+        const tdQtd = document.createElement("td");
         const btnMenos = document.createElement("button");
         btnMenos.textContent = "-";
         btnMenos.addEventListener("click", () => {
-            if (produto.quantidade > 1) {
-                produto.quantidade--;
-            } else {
-                carrinho.splice(index, -1);
-            }
+            if (produto.quantidade > 1) produto.quantidade--;
+            else carrinho.splice(index, 1);
             atualizarCarrinho();
         });
-
-        const spanQtd = document.createElement("span");
-        spanQtd.textContent = produto.quantidade;
-
-        const btnMais = document.createElement("button");
-        btnMais.textContent = "+";
-        btnMais.addEventListener("click", () => {
-            produto.quantidade++;
-            atualizarCarrinho();
-        });
-
-        quantidadeDiv.appendChild(btnMenos);
-        quantidadeDiv.appendChild(spanQtd);
-        quantidadeDiv.appendChild(btnMais);
-
-        //preço
-        const precoCart = document.createElement("p");
-        precoCart.classList.add("p");
-        precoCart.textContent = "R$ " + (produto.preco * produto.quantidade).toFixed(2).replace(".", ",");
-
-        const btnRemover = document.createElement("button");
-        btnRemover.textContent = "Remover";
-        btnRemover.addEventListener("click", () => {
-            carrinho.splice(index, 1);
-            atualizarCarrinho();
-        });
-
-        //Monta o card
-        cardCart.appendChild(imgCart);
-        cardCart.appendChild(produtoCart);
-        cardCart.appendChild(quantidadeDiv);
-        cardCart.appendChild(precoCart);
-        cardCart.appendChild(btnRemover);
-
-        listaCart.appendChild(cardCart);
-
-});
-
+  
+      const spanQtd = document.createElement("span");
+      spanQtd.textContent = produto.quantidade;
+  
+      const btnMais = document.createElement("button");
+      btnMais.textContent = "+";
+      btnMais.addEventListener("click", () => {
+        produto.quantidade++;
+        atualizarCarrinho();
+      });
+  
+      tdQtd.appendChild(btnMenos);
+      tdQtd.appendChild(spanQtd);
+      tdQtd.appendChild(btnMais);
+  
+      // Preço
+      const tdPreco = document.createElement("td");
+      tdPreco.textContent = (produto.preco * produto.quantidade).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  
+      // Remover
+      const tdRemover = document.createElement("td");
+      const btnRemover = document.createElement("button");
+      btnRemover.textContent = "Remover";
+      btnRemover.addEventListener("click", () => {
+        carrinho.splice(index, 1);
+        atualizarCarrinho();
+      });
+      tdRemover.appendChild(btnRemover);
+  
+      // Adiciona tudo à linha
+      row.appendChild(tdProduto);
+      row.appendChild(tdQtd);
+      row.appendChild(tdPreco);
+      row.appendChild(tdRemover);
+  
+      cartBody.appendChild(row);
+    });
+  
     calcularTotal();
-}
+  }
 
 function calcularTotal () {
     const total = carrinho.reduce((soma, produto) => soma + (produto.preco * produto.quantidade), 0);
@@ -238,6 +239,8 @@ function calcularTotal () {
 
     if (carrinho.length === 0) {
         summaryDiv.innerHTML = "<p> Seu carrinho está vazio. </p>";
+
+        document.getElementById("carrinho").textContent = "🛒 Carrinho";
         return;
     }
 
@@ -248,14 +251,14 @@ function calcularTotal () {
     textSummary.textContent = "Resumo";
 
     const subtotalSummary = document.createElement("p");
-    subtotalSummary.textContent = "Subtotal: (" + quantidadeTotal + " itens): R$ " + total.toFixed(2).replace(".", ",");
+    subtotalSummary.textContent = "Subtotal: (" + quantidadeTotal + " itens): " + total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
     const freteSummary = document.createElement("p");
     freteSummary.textContent = "Frete: grátis";
 
     const totalSummary = document.createElement("span");
     totalSummary.classList = "totalCalculado";
-    totalSummary.textContent = "Total: R$ " + total.toFixed(2).replace(".",",");
+    totalSummary.textContent = "Total: " + total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
     const btnSummary = document.createElement("button");
     btnSummary.classList.add("checkout");
@@ -269,5 +272,16 @@ function calcularTotal () {
     
     summaryDiv.appendChild(cardSummary);
 
-    document.getElementById("carrinho").textContent = `🛒 Cart (${quantidadeTotal})`;
+    document.getElementById("carrinho").textContent = `🛒 Carrinho (${quantidadeTotal})`;
 }
+
+function mostrarMensagem(texto) {
+    const msg = document.getElementById("mensagemAdicionado");
+    msg.textContent = texto;
+    msg.classList.add("show");
+  
+    // Oculta a mensagem após 2 segundos
+    setTimeout(() => {
+      msg.classList.remove("show");
+    }, 2000);
+  }
