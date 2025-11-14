@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineTrack - Cadastrar Usuário</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Cadastrar Usuário</h1>
+    <a href="index.html">Home</a>
+    <a href="cadastrar-titulo.html">Cadastrar Título</a>
+  </header>
+
+  <main>
+    <form id="formUsuario">
+      <label>Nome: <input id="nome" required /></label><br>
+      <label>Idade: <input id="idade" type="number" required /></label><br>
+      <label>Gênero favorito:
+        <select id="generoFavorito">
+          <option>Ação</option>
+          <option>Comédia</option>
+          <option>Drama</option>
+          <option>Ficção</option>
+          <option>Terror</option>
+          <option>Romance</option>
+        </select>
+      </label><br>
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <h3>Saída</h3>
+    <pre id="output" class="output"></pre>
+  </main>
+
+</body>
+</html>
