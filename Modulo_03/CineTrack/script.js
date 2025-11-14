@@ -174,6 +174,16 @@ class CineTrack {
             return { titulo: t, registro: r };
         });
     }
+
+    getMediaAvaliacoes(tituloId) {
+        const avaliacoes = this.registros
+            .filter(r => r.tituloId === tituloId && r.avaliacao !== undefined);
+    
+        if (avaliacoes.length === 0) return null;
+    
+        const soma = avaliacoes.reduce((acc, r) => acc + r.avaliacao, 0);
+        return soma / avaliacoes.length;
+    }
 }
 
 // ---------- Instância global ----------
@@ -307,6 +317,8 @@ window.addEventListener("DOMContentLoaded", () => {
             usuarioAtualDiv && (usuarioAtualDiv.textContent = "");
             if (fotoUsuarioSelecionado) fotoUsuarioSelecionado.style.display = "none";
         }
+
+        mostrarCatalogo();
     }
 
     // renderizar usuários como cards
@@ -398,6 +410,25 @@ window.addEventListener("DOMContentLoaded", () => {
                   ? `<img src="${t.imagemBase64}" alt="${t.titulo}" style="width:100%;border-radius:6px;margin-bottom:6px;height:120px;object-fit:cover;">`
                   : `<div style="width:100%;height:140px;background:#333;border-radius:6px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;color:#777;">Sem imagem</div>`;
 
+                // Buscar avaliação do usuário atual
+                let avaliacaoUsuario = "";
+                const reg = sistema.registros.find(r =>
+                    r.usuarioNome === usuarioSelecionado && r.tituloId === t.id
+                );
+                if (reg && reg.avaliacao) {
+                    avaliacaoUsuario = `Nota de ${usuarioSelecionado}: ⭐ ${reg.avaliacao}/10`;
+                }
+
+                // Média geral das avaliações
+                const media = sistema.getMediaAvaliacoes(t.id);
+                let mediaHtml = "";
+
+                if (media !== null) {
+                    mediaHtml = `<div class="mediaGeral" style="color:#4fc3f7; margin-top:4px;">
+                        Média geral: ⭐ ${media.toFixed(1)}/10
+                    </div>`;
+                }
+
                 card.innerHTML = `
                     ${imagem}
                     <strong style="display:block;">${t.titulo}</strong>${ano}
@@ -409,7 +440,9 @@ window.addEventListener("DOMContentLoaded", () => {
                         <button data-id="${t.id}" class="rateBtn">Avaliar</button>
                     </div>
                     <div class="avaliacaoUsuario" id="nota_${t.id}" style="margin-top:5px; color:#ffd700;"></div>
-                `;
+
+                    ${mediaHtml}
+                    `;
 
                 container.appendChild(card);
 
@@ -421,7 +454,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                     if (reg && reg.avaliacao) {
                         card.querySelector(`#nota_${t.id}`).textContent =
-                            `Sua nota: ⭐ ${reg.avaliacao}/10`;
+                            `Nota de ${usuarioSelecionado}: ⭐ ${reg.avaliacao}/10`;
                     }
                 }
             });
@@ -564,6 +597,7 @@ window.addEventListener("DOMContentLoaded", () => {
             alert("Selecione um usuário primeiro.");
             return;
         }
+
         const nota = Number(notaInput.value);
         if (nota < 1 || nota > 10) {
             alert("Nota deve ser entre 1 e 10.");
@@ -571,6 +605,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         sistema.atualizarRegistro(usuarioSelecionado, tituloParaAvaliar.id, "Concluído", nota);
+        
         fecharPopup();
         mostrarCatalogo(); // atualiza as notas no catálogo
         alert("Avaliação salva!");
