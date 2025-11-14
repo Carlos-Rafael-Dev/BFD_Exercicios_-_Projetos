@@ -31,7 +31,7 @@
           margin-bottom:10px;
           display:none;
       ">
-      
+
       <h2>Escolha um usuário:</h2>
       <div id="listaUsuarios" 
            style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px;"></div>
@@ -54,6 +54,24 @@
       <div id="catalogo"></div>
     </section>
   </main>
+
+  <div id="popupAvaliacao"
+     style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
+     background:#222; padding:20px; border-radius:10px; display:none;
+     color:white; z-index:999; width:260px;">
+     
+    <h3>Avaliar título</h3>
+    <div id="popupTitulo" style="margin-bottom:10px; font-size:14px; color:#ccc;"></div>
+    
+    <label>Nota (1 a 10):</label>
+    <input type="number" id="notaInput" min="1" max="10" value="10"
+           style="width:100%; margin:5px 0; padding:6px; border-radius:6px;">
+    
+    <div style="margin-top:10px; display:flex; gap:10px; justify-content:end;">
+        <button id="btnCancelarAvaliacao">Cancelar</button>
+        <button id="btnSalvarAvaliacao">Salvar</button>
+    </div>
+  </div>
    
 </body>
 </html>

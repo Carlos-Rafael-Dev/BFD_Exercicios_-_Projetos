@@ -406,12 +406,40 @@ window.addEventListener("DOMContentLoaded", () => {
                     <div style="margin-top:8px;">
                         <button data-id="${t.id}" class="favBtn">Favoritar</button>
                         <button data-id="${t.id}" class="verBtn">Assistindo</button>
+                        <button data-id="${t.id}" class="rateBtn">Avaliar</button>
                     </div>
+                    <div class="avaliacaoUsuario" id="nota_${t.id}" style="margin-top:5px; color:#ffd700;"></div>
                 `;
+
                 container.appendChild(card);
+
+                // Exibir avaliação do usuário no card
+                if (usuarioSelecionado) {
+                    const reg = sistema.registros.find(
+                        r => r.usuarioNome === usuarioSelecionado && r.tituloId === t.id
+                    );
+
+                    if (reg && reg.avaliacao) {
+                        card.querySelector(`#nota_${t.id}`).textContent =
+                            `Sua nota: ⭐ ${reg.avaliacao}/10`;
+                    }
+                }
             });
 
             catalogoDiv.appendChild(container);
+        });
+
+        // Registrar eventos dos botões APÓS criar os cards
+        catalogoDiv.querySelectorAll(".rateBtn").forEach(btn => {
+            btn.onclick = () => {
+                if (!usuarioSelecionado) {
+                    alert("Selecione um usuário.");
+                    return;
+                }
+                const id = btn.dataset.id;
+                const titulo = sistema.buscarTituloPorId(id);
+                abrirPopupAvaliacao(titulo);
+            };
         });
 
         // listeners dos botões dentro das cards
@@ -431,7 +459,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 }
             };
         });
-        
+
         catalogoDiv.querySelectorAll(".verBtn").forEach(b => {
             b.onclick = () => {
                 const id = b.dataset.id;
@@ -442,7 +470,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 sistema.atualizarRegistro(usuarioSelecionado, id, "Assistindo");
                 alert("Marcado como Assistindo.");
             };
-        });
+        });   
     }
 
     // handlers dos botões (usar usuarioSelecionado)
@@ -505,6 +533,48 @@ window.addEventListener("DOMContentLoaded", () => {
             if (selectUsuario.value) setUsuarioSelecionado(selectUsuario.value);
         };
     }
+
+    // -------- Sistema de avaliacao popup ---------
+    const popup = byId("popupAvaliacao");
+    const popupTitulo = byId("popupTitulo");
+    const notaInput = byId("notaInput");
+    const btnCancelarAvaliacao = byId("btnCancelarAvaliacao");
+    const btnSalvarAvaliacao = byId("btnSalvarAvaliacao");
+
+    let tituloParaAvaliar = null;
+
+    // abrir popup
+    function abrirPopupAvaliacao(titulo) {
+        tituloParaAvaliar = titulo;
+        popupTitulo.textContent = titulo.titulo;
+        notaInput.value = 10;
+        popup.style.display = "block";
+    }
+
+    // fechar popup
+    function fecharPopup() {
+        popup.style.display = "none";
+        tituloParaAvaliar = null;
+    }
+
+    btnCancelarAvaliacao.onclick = fecharPopup;
+
+    btnSalvarAvaliacao.onclick = () => {
+        if (!usuarioSelecionado) {
+            alert("Selecione um usuário primeiro.");
+            return;
+        }
+        const nota = Number(notaInput.value);
+        if (nota < 1 || nota > 10) {
+            alert("Nota deve ser entre 1 e 10.");
+            return;
+        }
+
+        sistema.atualizarRegistro(usuarioSelecionado, tituloParaAvaliar.id, "Concluído", nota);
+        fecharPopup();
+        mostrarCatalogo(); // atualiza as notas no catálogo
+        alert("Avaliação salva!");
+    };
 });
 
     // Página: cadastrar-usuario.html
@@ -616,8 +686,5 @@ window.addEventListener("DOMContentLoaded", () => {
                 outputTitulo.textContent = `❌ Erro: ${err.message}`;
             }
         };
-    }
-;
-
-
+    };
 
