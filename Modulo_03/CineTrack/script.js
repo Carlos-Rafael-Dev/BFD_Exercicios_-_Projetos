@@ -11,12 +11,14 @@ class Titulo {
         this.imagemBase64 = imagemBase64;
     }
 }
+
 class Filme extends Titulo {
     // possíveis atributos no futuro (diretor, duração etc.)
     constructor(id, titulo, genero, plataforma, ano, imagemBase64) {
         super(id, titulo, genero, plataforma, "Filme", ano, imagemBase64);
     }
 }
+
 class Serie extends Titulo {
     constructor(id, titulo, genero, plataforma, temporadas, episodios, ano, imagemBase64) {
         super(id, titulo, genero, plataforma, "Série", ano, imagemBase64);
@@ -24,6 +26,7 @@ class Serie extends Titulo {
         this.episodios = episodios;
     }
 }
+
 // Registro para armazenar o status/avaliacao por usuário-título
 class RegistroDeVisualizacao {
     constructor(usuarioNome, // referência simples por nome (ou poderia ser id)
@@ -37,15 +40,18 @@ class RegistroDeVisualizacao {
         this.dataFim = dataFim;
     }
 }
+
 class Usuario {
-    constructor(nome, idade, generoFavorito) {
+    constructor(nome, idade, generoFavorito, fotoBase64) {
         this.nome = nome;
         this.idade = idade;
         this.generoFavorito = generoFavorito;
+        this.fotoBase64 = fotoBase64 || null;
         this.favoritos = []; // lista de ids de títulos
         this.dataCadastro = new Date().toISOString();
     }
 }
+
 // ---------- Sistema (controladora) ----------
 class CineTrack {
     constructor() {
@@ -53,6 +59,7 @@ class CineTrack {
         this.catalogo = [];
         this.registros = [];
     }
+
     // Persistência em localStorage
     saveToStorage() {
         const raw = {
@@ -62,6 +69,7 @@ class CineTrack {
         };
         localStorage.setItem("cinetrack_data", JSON.stringify(raw));
     }
+
     loadFromStorage() {
         const raw = localStorage.getItem("cinetrack_data");
         if (!raw)
@@ -69,7 +77,7 @@ class CineTrack {
         try {
             const parsed = JSON.parse(raw);
             // reconstruir objetos:
-            this.usuarios = (parsed.usuarios || []).map((u) => Object.assign(new Usuario(u.nome, u.idade, u.generoFavorito), {
+            this.usuarios = (parsed.usuarios || []).map((u) => Object.assign(new Usuario(u.nome, u.idade, u.generoFavorito, u.fotoBase64), {
                 favoritos: u.favoritos || [],
                 dataCadastro: u.dataCadastro || new Date().toISOString()
             }));
@@ -87,6 +95,7 @@ class CineTrack {
             console.error("Erro ao carregar dados:", e);
         }
     }
+
     adicionarUsuario(u) {
         // evitar duplicados por nome
         if (this.usuarios.find(x => x.nome === u.nome))
@@ -94,6 +103,7 @@ class CineTrack {
         this.usuarios.push(u);
         this.saveToStorage();
     }
+
     registrarTitulo(t) {
         if (this.catalogo.find(x => x.titulo === t.titulo && x.plataforma === t.plataforma)) {
             throw new Error("Título já cadastrado nessa plataforma.");
@@ -101,12 +111,15 @@ class CineTrack {
         this.catalogo.push(t);
         this.saveToStorage();
     }
+
     buscarUsuario(nome) {
         return this.usuarios.find(u => u.nome === nome);
     }
+
     buscarTituloPorId(id) {
         return this.catalogo.find(t => t.id === id);
     }
+
     // retorna títulos cujo gênero = generoFavorito e que o usuário ainda não avaliou/registrou (ou que tenha status "Quero ver")
     recomendarParaUsuario(usuarioNome) {
         const u = this.buscarUsuario(usuarioNome);
@@ -115,10 +128,12 @@ class CineTrack {
         const jaRegistradosIds = new Set(this.registros.filter(r => r.usuarioNome === usuarioNome).map(r => r.tituloId));
         return this.catalogo.filter(t => t.genero === u.generoFavorito && !jaRegistradosIds.has(t.id));
     }
+
     adicionarRegistro(r) {
         this.registros.push(r);
         this.saveToStorage();
     }
+
     atualizarRegistro(usuarioNome, tituloId, novoStatus, avaliacao) {
         const reg = this.registros.find(r => r.usuarioNome === usuarioNome && r.tituloId === tituloId);
         if (reg) {
@@ -140,6 +155,7 @@ class CineTrack {
             this.adicionarRegistro(novo);
         }
     }
+
     favoritarTitulo(usuarioNome, tituloId) {
         const u = this.buscarUsuario(usuarioNome);
         if (!u)
@@ -149,6 +165,7 @@ class CineTrack {
             this.saveToStorage();
         }
     }
+
     listarAssistindo(usuarioNome) {
         return this.registros
             .filter(r => r.usuarioNome === usuarioNome && r.status === "Assistindo")
@@ -310,7 +327,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // ao mudar usuário
         selectUsuario.onchange = () => {
-            // nada por enquanto; poderia atualizar painel
+            const nome = selectUsuario.value;
+            const usuario = sistema.buscarUsuario(nome);
+            const fotoEl = byId("fotoUsuarioSelecionado");
+        
+            if (usuario && usuario.fotoBase64) {
+                fotoEl.src = usuario.fotoBase64;
+                fotoEl.style.display = "block";
+            } else {
+                fotoEl.style.display = "none";
+            }
         };
 
         // Ver favoritos
@@ -373,6 +399,25 @@ window.addEventListener("DOMContentLoaded", () => {
     const formUsuario = byId("formUsuario");
     const output = byId("output");
     if (formUsuario && output) {
+        const fotoInput = byId("fotoUsuario");
+        const previewFoto = byId("previewFotoUsuario");
+
+        let fotoBase64Temp;
+
+        // mostrar prévia
+        fotoInput?.addEventListener("change", () => {
+            const file = fotoInput.files?.[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    fotoBase64Temp = e.target.result;
+                    previewFoto.src = fotoBase64Temp;
+                    previewFoto.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         formUsuario.onsubmit = (ev) => {
             ev.preventDefault();
             const nome = (byId("nome")).value.trim();
@@ -383,7 +428,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 return;
             }
             try {
-                const u = new Usuario(nome, idade, genero);
+                const u = new Usuario(nome, idade, genero, fotoBase64Temp);
                 sistema.adicionarUsuario(u);
                 output.textContent = `✅ Usuário "${nome}" adicionado com sucesso.`;
             }
@@ -392,7 +437,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         };
     }
-    
+
     // Página: cadastrar-titulo.html
     const formTitulo = byId("formTitulo");
     const outputTitulo = byId("outputTitulo");
