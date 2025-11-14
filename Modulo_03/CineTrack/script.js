@@ -158,6 +158,7 @@ class CineTrack {
         });
     }
 }
+
 // ---------- Instância global ----------
 const sistema = new CineTrack();
 sistema.loadFromStorage();
@@ -176,15 +177,31 @@ function seedCatalogo() {
     if (sistema.catalogo.length > 0) return;
 
     const seeds = [
-        new Filme(uid("t_"), "Toy Story", "Animação", "Netflix", 2000, "./assets/catalogo/animacao/TS1.jpg"),
-        new Filme(uid("t_"), "Toy Story 2", "Animação", "Netflix", 2004, "./assets/catalogo/animacao/TS2.webp"),
-        new Filme(uid("t_"), "Toy Story 3", "Animação", "Netflix", 2006, "./assets/catalogo/animacao/TS3.avif"),
-        new Filme(uid("t_"), "Toy Story 4", "Animação", "Netflix", 2014, "./assets/catalogo/animacao/TS4.webp"),
+        new Filme(uid("t_"), "Toy Story", "Animação", "Disney+", 2000, "./assets/catalogo/animacao/TS1.jpg"),
+        new Filme(uid("t_"), "Toy Story 2", "Animação", "Disney+", 2004, "./assets/catalogo/animacao/TS2.webp"),
+        new Filme(uid("t_"), "Toy Story 3", "Animação", "Disney+", 2006, "./assets/catalogo/animacao/TS3.avif"),
+        new Filme(uid("t_"), "Toy Story 4", "Animação", "Disney+", 2014, "./assets/catalogo/animacao/TS4.webp"),
         new Filme(uid("t_"), "John Wick", "Ação", "Prime Video", 2014, "./assets/catalogo/acao/JW1.jpg"),
         new Filme(uid("t_"), "John Wick 2", "Ação", "Prime Video", 2016, "./assets/catalogo/acao/JW2.webp"),
         new Filme(uid("t_"), "John Wick 3", "Ação", "Prime Video", 2020, "./assets/catalogo/acao/JW3.webp"),
         new Filme(uid("t_"), "John Wick 4", "Ação", "Prime Video", 2023, "./assets/catalogo/acao/JW4.webp"),
-        new Filme(uid("t_"), "Harry Potter", "Aventura", "Prime Video", 2000, "./assets/catalogo/aventura/HP1.jpg")
+        new Filme(uid("t_"), "Harry Potter", "Aventura", "Netflix", 2000, "./assets/catalogo/aventura/HP1.jpg"),
+        new Filme(uid("t_"), "Harry Potter 2", "Aventura", "Netflix", 2002, "./assets/catalogo/aventura/HP2.jpg"),
+        new Filme(uid("t_"), "Harry Potter 3", "Aventura", "Netflix", 2004, "./assets/catalogo/aventura/HP3.jpg"),
+        new Filme(uid("t_"), "Harry Potter 4", "Aventura", "Netflix", 2006, "./assets/catalogo/aventura/HP4.jpg"),
+        new Filme(uid("t_"), "Todo Mundo em Pânico", "Comédia", "Prime Video", 2000, "./assets/catalogo/comedia/TD1.jpg"),
+        new Filme(uid("t_"), "Todo Mundo em Pânico 2", "Comédia", "Prime Video", 2002, "./assets/catalogo/comedia/TD2.jpg"),
+        new Filme(uid("t_"), "Todo Mundo em Pânico 3", "Comédia", "Prime Video", 2004, "./assets/catalogo/comedia/TD3.webp"),
+        new Filme(uid("t_"), "Todo Mundo em Pânico 4", "Comédia", "Prime Video", 2006, "./assets/catalogo/comedia/TD4.webp"),
+        new Filme(uid("t_"), "Todo Mundo em Pânico 5", "Comédia", "Prime Video", 2008, "./assets/catalogo/comedia/TD5.jpg"),
+        new Filme(uid("t_"), "Matriz", "Ficção Cientifica", "HBO Max", 2001, "./assets/catalogo/ficcao-cientifica/MA1.jpg"),
+        new Filme(uid("t_"), "Matriz 2", "Ficção Cientifica", "HBO Max", 2003, "./assets/catalogo/ficcao-cientifica/MA2.jpg"),
+        new Filme(uid("t_"), "Para Todos os Garotos que já amei", "Romance", "Netflix", 2013, "./assets/catalogo/romance/GA1.webp"),
+        new Filme(uid("t_"), "Para Todos os Garotos que já amei 2", "Romance", "Netflix", 2016, "./assets/catalogo/romance/GA2.jpg"),
+        new Filme(uid("t_"), "Para Todos os Garotos que já amei 3", "Romance", "Netflix", 2018, "./assets/catalogo/romance/GA3.jpg"),
+        new Filme(uid("t_"), "Invocação do mal", "Terror", "HBO Max", 2017, "./assets/catalogo/terror/IM1.jpg"),
+        new Filme(uid("t_"), "Invocação do mal 2", "Terror", "HBO Max", 2019, "./assets/catalogo/terror/IM2.webp"),
+        new Filme(uid("t_"), "Invocação do mal 3", "Terror", "HBO Max", 2020, "./assets/catalogo/terror/IM3.jpg"),
     ];
 
     seeds.forEach(t => sistema.catalogo.push(t));
@@ -211,68 +228,91 @@ window.addEventListener("DOMContentLoaded", () => {
                 selectUsuario.add(opt);
             });
         }
+
         function mostrarCatalogo() {
             catalogoDiv.innerHTML = "";
+        
+            // 1. Agrupar títulos por gênero
+            const porGenero = {};
             sistema.catalogo.forEach(t => {
-                const card = document.createElement("div");
-                card.className = "card";
-                const tipo = t.tipo;
-                const ano = t.anoLancamento ? ` • ${t.anoLancamento}` : "";
-                const extra = t.tipo === "Série" ? `<div class="small">Série</div>` : `<div class="small">Filme</div>`;
-                const imagem = t.imagemBase64
-                  ? `<img src="${t.imagemBase64}" alt="${t.titulo}" style="width:100%;border-radius:4px;margin-bottom:6px;">`
-                  : `<div style="width:100%;height:120px;background:#333;border-radius:4px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;color:#777;">Sem imagem</div>`;
-
-                
-                card.innerHTML = `
-                    ${imagem}
-                    <strong>${t.titulo}</strong>${ano}
-                    <div class="small">${t.genero} • ${t.plataforma}</div>
-                    <div class="small">${t.tipo}</div>
-                    <div style="margin-top:8px;">
-                        <button data-id="${t.id}" class="favBtn">Favoritar</button>
-                        <button data-id="${t.id}" class="verBtn">Marcar Assistindo</button>
-                    </div>
-                    `;
-                catalogoDiv.appendChild(card);
+                if (!porGenero[t.genero]) porGenero[t.genero] = [];
+                porGenero[t.genero].push(t);
             });
-            // listeners dos botões dentro das cards
-            catalogoDiv.querySelectorAll(".favBtn").forEach(b => {
-                b.onclick = () => {
-                    const id = b.dataset.id;
-                    const nomeUsuario = selectUsuario.value;
-                    if (!nomeUsuario) {
-                        alert("Selecione um usuário primeiro.");
-                        return;
-                    }
-                    try {
-                        sistema.favoritarTitulo(nomeUsuario, id);
-                        alert("Favorito adicionado!");
-                    }
-                    catch (e) {
-                        alert("Erro: " + e.message);
-                    }
+        
+            // 2. Para cada gênero, criar uma seção
+            Object.keys(porGenero).forEach(genero => {
+                // Cabeçalho do gênero
+                const h2 = document.createElement("h2");
+                h2.textContent = genero;
+                h2.style.margin = "20px 0 10px";
+                catalogoDiv.appendChild(h2);
+        
+                // Container de cards
+                const container = document.createElement("div");
+                container.className = "gridGenero"; // você pode estilizar como quiser
+                container.style.display = "grid";
+                container.style.gridTemplateColumns = "repeat(auto-fill, minmax(180px, 1fr))";
+                container.style.gap = "15px";
+        
+                porGenero[genero].forEach(t => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+        
+                    const tipo = t.tipo;
+                    const ano = t.anoLancamento ? ` • ${t.anoLancamento}` : "";
+        
+                    const imagem = t.imagemBase64
+                        ? `<img src="${t.imagemBase64}" style="width:100%;border-radius:4px;margin-bottom:6px;">`
+                        : `<div style="width:100%;height:150px;background:#333;border-radius:4px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;color:#777;">Sem imagem</div>`;
+        
+                    card.innerHTML = `
+                        ${imagem}
+                        <strong>${t.titulo}</strong>${ano}
+                        <div class="small">${t.genero} • ${t.plataforma}</div>
+                        <div class="small">${t.tipo}</div>
+                        <div style="margin-top:8px;">
+                            <button data-id="${t.id}" class="favBtn">Favoritar</button>
+                            <button data-id="${t.id}" class="verBtn">Assistindo</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+        
+                // Adiciona a seção ao catálogo
+                catalogoDiv.appendChild(container);
+            });
+        
+            // 3. Reativar os botões (favoritar / assistir)
+            catalogoDiv.querySelectorAll(".favBtn").forEach(btn => {
+                btn.onclick = () => {
+                    const id = btn.dataset.id;
+                    const usuario = selectUsuario.value;
+                    if (!usuario) return alert("Selecione um usuário.");
+                    sistema.favoritarTitulo(usuario, id);
+                    alert("Favoritado!");
                 };
             });
-            catalogoDiv.querySelectorAll(".verBtn").forEach(b => {
-                b.onclick = () => {
-                    const id = b.dataset.id;
-                    const nomeUsuario = selectUsuario.value;
-                    if (!nomeUsuario) {
-                        alert("Selecione um usuário primeiro.");
-                        return;
-                    }
-                    sistema.atualizarRegistro(nomeUsuario, id, "Assistindo");
-                    alert("Marcado como Assistindo.");
+        
+            catalogoDiv.querySelectorAll(".verBtn").forEach(btn => {
+                btn.onclick = () => {
+                    const id = btn.dataset.id;
+                    const usuario = selectUsuario.value;
+                    if (!usuario) return alert("Selecione um usuário.");
+                    sistema.atualizarRegistro(usuario, id, "Assistindo");
+                    alert("Marcado como assistindo.");
                 };
             });
         }
+        
+
         popularUsuariosSelect();
         mostrarCatalogo();
+
         // ao mudar usuário
         selectUsuario.onchange = () => {
             // nada por enquanto; poderia atualizar painel
         };
+
         // Ver favoritos
         if (btnVerFavoritos && outputRecomendacao) {
             btnVerFavoritos.onclick = () => {
@@ -293,6 +333,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 outputRecomendacao.textContent = `Favoritos de ${nome}:\n` + linhas.join("\n");
             };
         }
+
         // Ver assistindo
         if (btnVerAssistindo && outputRecomendacao) {
             btnVerAssistindo.onclick = () => {
@@ -309,6 +350,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 outputRecomendacao.textContent = `O que ${nome} está assistindo:\n` + lista.map(l => `- ${l.titulo.titulo} (${l.titulo.tipo})`).join("\n");
             };
         }
+
         // Recomendar
         if (btnRecomendar && outputRecomendacao) {
             btnRecomendar.onclick = () => {
@@ -326,6 +368,7 @@ window.addEventListener("DOMContentLoaded", () => {
             };
         }
     }
+
     // Página: cadastrar-usuario.html
     const formUsuario = byId("formUsuario");
     const output = byId("output");
@@ -349,6 +392,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         };
     }
+    
     // Página: cadastrar-titulo.html
     const formTitulo = byId("formTitulo");
     const outputTitulo = byId("outputTitulo");
