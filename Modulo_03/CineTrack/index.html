@@ -3,22 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine Track</title>
-    <link rel="icon" href="logomin.png" type="image/png">
+    <title>Cine Track - Home</title>
+    <link rel="icon" href="./assets/logo/minilogo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 
-<header>
-     <nav>
-    <ul>
-      <img src="logomin.png" alt="Meu ícone" style="width:50px; height:50px;">
-      <li><a href="#titulo">Cine Track</a></li>
-      <li><a href="#entrar">Entrar</a></li>
-      <li><a href="#cadastro">Cadastro</a></li>
-      <li><a href="#filmes">Filmes</a></li>
-    </ul>
-  </nav>
-</header>
 <body>
-    
+  <header>
+    <img src="./assets/logo/logomin.png" alt="Meu ícone" style="width:50px; height:50px;">
+    <h1>CineTrack</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cadastrar-usuario.html">Cadastrar Usuário</a>
+      <a href="cadastrar-titulo.html">Cadastrar Título</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Usuários</h2>
+      <select id="selectUsuario" aria-label="Selecionar usuário">
+        <option value="">-- selecione --</option>
+      </select>
+      <button id="btnVerFavoritos">Ver Favoritos</button>
+      <button id="btnVerAssistindo">Ver assistindo</button>
+    </section>
+
+    <section>
+      <h2>Recomendações</h2>
+      <button id="btnRecomendar">Gerar recomendações para usuário selecionado</button>
+      <pre id="outputRecomendacao" class="output"></pre>
+    </section>
+
+    <section>
+      <h2>Catálogo</h2>
+      <div id="catalogo"></div>
+    </section>
+  </main>
+   
 </body>
 </html>
