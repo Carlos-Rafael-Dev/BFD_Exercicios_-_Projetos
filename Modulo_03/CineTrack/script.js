@@ -261,173 +261,251 @@ function seedCatalogo() {
 
 // ---------- inicializa funcionalidade dependendo da página ----------
 window.addEventListener("DOMContentLoaded", () => {
-    // Home (index.html)
-    const selectUsuario = byId("selectUsuario");
+    // elementos da home
+    const listaUsuariosDiv = byId("listaUsuarios");
+    const usuarioAtualDiv = byId("usuarioAtual");
+    const fotoUsuarioSelecionado = byId("fotoUsuarioSelecionado");
+    const catalogoDiv = byId("catalogo");
+    const outputRecomendacao = byId("outputRecomendacao");
+
     const btnVerFavoritos = byId("btnVerFavoritos");
     const btnVerAssistindo = byId("btnVerAssistindo");
     const btnRecomendar = byId("btnRecomendar");
-    const outputRecomendacao = byId("outputRecomendacao");
-    const catalogoDiv = byId("catalogo");
-    if (selectUsuario && catalogoDiv) {
-        // popular select de usuarios
-        function popularUsuariosSelect() {
-            selectUsuario.innerHTML = `<option value="">-- selecione --</option>`;
-            sistema.usuarios.forEach(u => {
-                const opt = document.createElement("option");
-                opt.value = u.nome;
-                opt.text = `${u.nome} (${u.generoFavorito})`;
-                selectUsuario.add(opt);
-            });
-        }
 
-        function mostrarCatalogo() {
-            catalogoDiv.innerHTML = "";
-        
-            // 1. Agrupar títulos por gênero
-            const porGenero = {};
-            sistema.catalogo.forEach(t => {
-                if (!porGenero[t.genero]) porGenero[t.genero] = [];
-                porGenero[t.genero].push(t);
-            });
-        
-            // 2. Para cada gênero, criar uma seção
-            Object.keys(porGenero).forEach(genero => {
-                // Cabeçalho do gênero
-                const h2 = document.createElement("h2");
-                h2.textContent = genero;
-                h2.style.margin = "20px 0 10px";
-                catalogoDiv.appendChild(h2);
-        
-                // Container de cards
-                const container = document.createElement("div");
-                container.className = "gridGenero"; // você pode estilizar como quiser
-                container.style.display = "grid";
-                container.style.gridTemplateColumns = "repeat(auto-fill, minmax(180px, 1fr))";
-                container.style.gap = "15px";
-        
-                porGenero[genero].forEach(t => {
-                    const card = document.createElement("div");
-                    card.className = "card";
-        
-                    const tipo = t.tipo;
-                    const ano = t.anoLancamento ? ` • ${t.anoLancamento}` : "";
-        
-                    const imagem = t.imagemBase64
-                        ? `<img src="${t.imagemBase64}" style="width:100%;border-radius:4px;margin-bottom:6px;">`
-                        : `<div style="width:100%;height:150px;background:#333;border-radius:4px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;color:#777;">Sem imagem</div>`;
-        
-                    card.innerHTML = `
-                        ${imagem}
-                        <strong>${t.titulo}</strong>${ano}
-                        <div class="small">${t.genero} • ${t.plataforma}</div>
-                        <div class="small">${t.tipo}</div>
-                        <div style="margin-top:8px;">
-                            <button data-id="${t.id}" class="favBtn">Favoritar</button>
-                            <button data-id="${t.id}" class="verBtn">Assistindo</button>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-        
-                // Adiciona a seção ao catálogo
-                catalogoDiv.appendChild(container);
-            });
-        
-            // 3. Reativar os botões (favoritar / assistir)
-            catalogoDiv.querySelectorAll(".favBtn").forEach(btn => {
-                btn.onclick = () => {
-                    const id = btn.dataset.id;
-                    const usuario = selectUsuario.value;
-                    if (!usuario) return alert("Selecione um usuário.");
-                    sistema.favoritarTitulo(usuario, id);
-                    alert("Favoritado!");
-                };
-            });
-        
-            catalogoDiv.querySelectorAll(".verBtn").forEach(btn => {
-                btn.onclick = () => {
-                    const id = btn.dataset.id;
-                    const usuario = selectUsuario.value;
-                    if (!usuario) return alert("Selecione um usuário.");
-                    sistema.atualizarRegistro(usuario, id, "Assistindo");
-                    alert("Marcado como assistindo.");
-                };
-            });
-        }
-        
+    // fallback: se não existir listaUsuarios, tenta usar select antigo (compatibilidade)
+    const selectUsuario = byId("selectUsuario");
 
-        popularUsuariosSelect();
-        mostrarCatalogo();
+    // estado
+    let usuarioSelecionado = null;
 
-        // ao mudar usuário
-        selectUsuario.onchange = () => {
-            const nome = selectUsuario.value;
-            const usuario = sistema.buscarUsuario(nome);
-            const fotoEl = byId("fotoUsuarioSelecionado");
-        
-            if (usuario && usuario.fotoBase64) {
-                fotoEl.src = usuario.fotoBase64;
-                fotoEl.style.display = "block";
-            } else {
-                fotoEl.style.display = "none";
+    // função que atualiza a UI quando um usuário é selecionado
+    function setUsuarioSelecionado(nome) {
+        usuarioSelecionado = nome;
+        //limpar output ao trocar usuario
+        if (outputRecomendacao) outputRecomendacao.textContent = "";
+        const u = sistema.buscarUsuario(nome);
+        if (u) {
+            usuarioAtualDiv && (usuarioAtualDiv.innerHTML = `<strong>Usuário selecionado:</strong> ${u.nome} (${u.generoFavorito})`);
+            if (fotoUsuarioSelecionado) {
+                if (u.fotoBase64) {
+                    fotoUsuarioSelecionado.src = u.fotoBase64;
+                    fotoUsuarioSelecionado.style.display = "block";
+                } else {
+                    fotoUsuarioSelecionado.style.display = "none";
+                }
             }
-        };
 
-        // Ver favoritos
-        if (btnVerFavoritos && outputRecomendacao) {
-            btnVerFavoritos.onclick = () => {
-                const nome = selectUsuario.value;
-                if (!nome) {
-                    outputRecomendacao.textContent = "Selecione um usuário.";
-                    return;
-                }
-                const usuario = sistema.buscarUsuario(nome);
-                if (usuario.favoritos.length === 0) {
-                    outputRecomendacao.textContent = `${nome} não possui favoritos.`;
-                    return;
-                }
-                const linhas = usuario.favoritos.map(id => {
-                    const t = sistema.buscarTituloPorId(id);
-                    return t ? `- ${t.titulo} (${t.tipo}) — ${t.plataforma}` : `- (título removido)`;
+            // destaca o card ativo (se estiver usando cards)
+            if (listaUsuariosDiv) {
+                listaUsuariosDiv.querySelectorAll(".user-card").forEach(c => {
+                    c.style.border = "2px solid transparent";
                 });
-                outputRecomendacao.textContent = `Favoritos de ${nome}:\n` + linhas.join("\n");
-            };
-        }
-
-        // Ver assistindo
-        if (btnVerAssistindo && outputRecomendacao) {
-            btnVerAssistindo.onclick = () => {
-                const nome = selectUsuario.value;
-                if (!nome) {
-                    outputRecomendacao.textContent = "Selecione um usuário.";
-                    return;
-                }
-                const lista = sistema.listarAssistindo(nome);
-                if (lista.length === 0) {
-                    outputRecomendacao.textContent = `${nome} não está assistindo nada no momento.`;
-                    return;
-                }
-                outputRecomendacao.textContent = `O que ${nome} está assistindo:\n` + lista.map(l => `- ${l.titulo.titulo} (${l.titulo.tipo})`).join("\n");
-            };
-        }
-
-        // Recomendar
-        if (btnRecomendar && outputRecomendacao) {
-            btnRecomendar.onclick = () => {
-                const nome = selectUsuario.value;
-                if (!nome) {
-                    outputRecomendacao.textContent = "Selecione um usuário.";
-                    return;
-                }
-                const recs = sistema.recomendarParaUsuario(nome);
-                if (recs.length === 0) {
-                    outputRecomendacao.textContent = "Sem recomendações novas para esse usuário.";
-                    return;
-                }
-                outputRecomendacao.textContent = `Recomendações para ${nome} (gênero favorito: ${sistema.buscarUsuario(nome).generoFavorito}):\n` + recs.map(r => `- ${r.titulo} (${r.plataforma})`).join("\n");
-            };
+                const ativo = listaUsuariosDiv.querySelector(`[data-nome="${CSS.escape(u.nome)}"]`);
+                if (ativo) ativo.style.border = "4px solid #4caf50";
+            }
+        } else {
+            usuarioAtualDiv && (usuarioAtualDiv.textContent = "");
+            if (fotoUsuarioSelecionado) fotoUsuarioSelecionado.style.display = "none";
         }
     }
+
+    // renderizar usuários como cards
+    function mostrarUsuariosComoCards() {
+        // se não existir o container, tenta popular o select (compatibilidade)
+        if (!listaUsuariosDiv) {
+            if (selectUsuario) {
+                selectUsuario.innerHTML = `<option value="">-- selecione --</option>`;
+                sistema.usuarios.forEach(u => {
+                    const opt = document.createElement("option");
+                    opt.value = u.nome;
+                    opt.text = `${u.nome} (${u.generoFavorito})`;
+                    selectUsuario.add(opt);
+                });
+            }
+            return;
+        }
+
+        listaUsuariosDiv.innerHTML = "";
+        sistema.usuarios.forEach(u => {
+            const card = document.createElement("div");
+            card.className = "user-card";
+            card.setAttribute("data-nome", u.nome);
+            card.style.width = "150px";
+            card.style.padding = "10px";
+            card.style.borderRadius = "10px";
+            card.style.background = "#222";
+            card.style.cursor = "pointer";
+            card.style.textAlign = "center";
+            card.style.border = "2px solid transparent";
+            card.style.transition = "0.15s";
+            card.style.boxSizing = "border-box";
+
+            const fotoHtml = u.fotoBase64
+                ? `<img src="${u.fotoBase64}" style="width:100%; height:110px; object-fit:cover; border-radius:8px;">`
+                : `<div style="width:100%; height:110px; background:#444; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#aaa;">Sem foto</div>`;
+
+            card.innerHTML = `
+                ${fotoHtml}
+                <div style="margin-top:8px; font-weight:bold; color:#fff;">${u.nome}</div>
+                <div style="font-size:13px; color:#ccc;">${u.generoFavorito}</div>
+            `;
+
+            card.onclick = () => {
+                setUsuarioSelecionado(u.nome);
+            };
+
+            listaUsuariosDiv.appendChild(card);
+        });
+
+        // se já existia usuário selecionado no estado, reaplica o destaque
+        if (usuarioSelecionado) setUsuarioSelecionado(usuarioSelecionado);
+    }
+
+    // mostrar catálogo (agrupado por gênero) - adaptado para usar usuarioSelecionado
+    function mostrarCatalogo() {
+        if (!catalogoDiv) return;
+        catalogoDiv.innerHTML = "";
+
+        // agrupa por gênero
+        const porGenero = {};
+        sistema.catalogo.forEach(t => {
+            if (!porGenero[t.genero]) porGenero[t.genero] = [];
+            porGenero[t.genero].push(t);
+        });
+
+        Object.keys(porGenero).sort().forEach(genero => {
+            const h2 = document.createElement("h2");
+            h2.textContent = genero;
+            h2.style.margin = "18px 0 8px";
+            catalogoDiv.appendChild(h2);
+
+            const container = document.createElement("div");
+            container.className = "gridGenero";
+            container.style.display = "grid";
+            container.style.gridTemplateColumns = "repeat(auto-fill, minmax(180px, 1fr))";
+            container.style.gap = "12px";
+
+            porGenero[genero].forEach(t => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.style.background = "#1b1b1b";
+                card.style.padding = "8px";
+                card.style.borderRadius = "8px";
+                card.style.color = "#fff";
+
+                const ano = t.anoLancamento ? ` • ${t.anoLancamento}` : "";
+                const imagem = t.imagemBase64
+                  ? `<img src="${t.imagemBase64}" alt="${t.titulo}" style="width:100%;border-radius:6px;margin-bottom:6px;height:120px;object-fit:cover;">`
+                  : `<div style="width:100%;height:140px;background:#333;border-radius:6px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;color:#777;">Sem imagem</div>`;
+
+                card.innerHTML = `
+                    ${imagem}
+                    <strong style="display:block;">${t.titulo}</strong>${ano}
+                    <div class="small" style="color:#ccc;">${t.genero} • ${t.plataforma}</div>
+                    <div class="small" style="color:#ccc;">${t.tipo}</div>
+                    <div style="margin-top:8px;">
+                        <button data-id="${t.id}" class="favBtn">Favoritar</button>
+                        <button data-id="${t.id}" class="verBtn">Assistindo</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            catalogoDiv.appendChild(container);
+        });
+
+        // listeners dos botões dentro das cards
+        catalogoDiv.querySelectorAll(".favBtn").forEach(b => {
+            b.onclick = () => {
+                const id = b.dataset.id;
+                if (!usuarioSelecionado) {
+                    alert("Selecione um usuário primeiro.");
+                    return;
+                }
+                try {
+                    sistema.favoritarTitulo(usuarioSelecionado, id);
+                    alert("Favorito adicionado!");
+                    // opcional: atualizar UI
+                } catch (e) {
+                    alert("Erro: " + e.message);
+                }
+            };
+        });
+        
+        catalogoDiv.querySelectorAll(".verBtn").forEach(b => {
+            b.onclick = () => {
+                const id = b.dataset.id;
+                if (!usuarioSelecionado) {
+                    alert("Selecione um usuário primeiro.");
+                    return;
+                }
+                sistema.atualizarRegistro(usuarioSelecionado, id, "Assistindo");
+                alert("Marcado como Assistindo.");
+            };
+        });
+    }
+
+    // handlers dos botões (usar usuarioSelecionado)
+    if (btnVerFavoritos) {
+        btnVerFavoritos.onclick = () => {
+            if (!usuarioSelecionado) {
+                outputRecomendacao && (outputRecomendacao.textContent = "Selecione um usuário.");
+                return;
+            }
+            const usuario = sistema.buscarUsuario(usuarioSelecionado);
+            if (!usuario || usuario.favoritos.length === 0) {
+                outputRecomendacao && (outputRecomendacao.textContent = `${usuarioSelecionado} não possui favoritos.`);
+                return;
+            }
+            const linhas = usuario.favoritos.map(id => {
+                const t = sistema.buscarTituloPorId(id);
+                return t ? `- ${t.titulo} (${t.tipo}) — ${t.plataforma}` : `- (título removido)`;
+            });
+            outputRecomendacao && (outputRecomendacao.textContent = `Favoritos de ${usuarioSelecionado}:\n` + linhas.join("\n"));
+        };
+    }
+
+    if (btnVerAssistindo) {
+        btnVerAssistindo.onclick = () => {
+            if (!usuarioSelecionado) {
+                outputRecomendacao && (outputRecomendacao.textContent = "Selecione um usuário.");
+                return;
+            }
+            const lista = sistema.listarAssistindo(usuarioSelecionado);
+            if (lista.length === 0) {
+                outputRecomendacao && (outputRecomendacao.textContent = `${usuarioSelecionado} não está assistindo nada no momento.`);
+                return;
+            }
+            outputRecomendacao && (outputRecomendacao.textContent = `O que ${usuarioSelecionado} está assistindo:\n` + lista.map(l => `- ${l.titulo.titulo} (${l.titulo.tipo})`).join("\n"));
+        };
+    }
+
+    if (btnRecomendar) {
+        btnRecomendar.onclick = () => {
+            if (!usuarioSelecionado) {
+                outputRecomendacao && (outputRecomendacao.textContent = "Selecione um usuário.");
+                return;
+            }
+            const recs = sistema.recomendarParaUsuario(usuarioSelecionado);
+            if (recs.length === 0) {
+                outputRecomendacao && (outputRecomendacao.textContent = "Sem recomendações novas para esse usuário.");
+                return;
+            }
+            outputRecomendacao && (outputRecomendacao.textContent = `Recomendações para ${usuarioSelecionado} (gênero favorito: ${sistema.buscarUsuario(usuarioSelecionado).generoFavorito}):\n` + recs.map(r => `- ${r.titulo} (${r.plataforma})`).join("\n"));
+        };
+    }
+
+    // inicialização: renderiza usuários e catálogo
+    mostrarUsuariosComoCards();
+    mostrarCatalogo();
+
+    // se houver select antigo e quiser manter compatibilidade, atualiza usuarioSelecionado quando ele mudar
+    if (selectUsuario) {
+        selectUsuario.onchange = () => {
+            if (selectUsuario.value) setUsuarioSelecionado(selectUsuario.value);
+        };
+    }
+});
 
     // Página: cadastrar-usuario.html
     const formUsuario = byId("formUsuario");
@@ -539,7 +617,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         };
     }
-});
+;
 
 
 

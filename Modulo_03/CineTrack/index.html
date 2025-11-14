@@ -31,9 +31,14 @@
           margin-bottom:10px;
           display:none;
       ">
-      <select id="selectUsuario" aria-label="Selecionar usuário">
-        <option value="">-- selecione --</option>
-      </select>
+      
+      <h2>Escolha um usuário:</h2>
+      <div id="listaUsuarios" 
+           style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px;"></div>
+      
+      <!-- opcional: onde exibimos o usuário selecionado -->
+      <div id="usuarioAtual" style="margin-bottom:20px; font-size:18px;"></div>
+      
       <button id="btnVerFavoritos">Ver Favoritos</button>
       <button id="btnVerAssistindo">Ver assistindo</button>
     </section>
