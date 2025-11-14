@@ -179,7 +179,9 @@ class CineTrack {
 // ---------- Instância global ----------
 const sistema = new CineTrack();
 sistema.loadFromStorage();
+seedUsuarios();
 seedCatalogo();
+
 // ---------- Utilidades (UI helpers) ----------
 function uid(prefix = "") {
     return prefix + Math.random().toString(36).slice(2, 9);
@@ -187,6 +189,38 @@ function uid(prefix = "") {
 function byId(id) {
     return document.getElementById(id);
 }
+
+// ---------- Usuários pré-cadastrados ----------
+function seedUsuarios() {
+    // Se já existir algum usuário, não faz nada
+    if (sistema.usuarios.length > 0) return;
+
+    const usuariosSeed = [
+        new Usuario(
+            "Rafael",
+            30,
+            "Ficção Cientifica",
+            "./assets/usuarios/rafael.jpeg"
+        ),
+        new Usuario(
+            "Joel",
+            25,
+            "Aventura",
+            "./assets/usuarios/joel.jpg"
+        ),
+        new Usuario(
+            "Sonny",
+            22,
+            "Animação",
+            "./assets/usuarios/default.png"
+        )
+    ];
+
+    usuariosSeed.forEach(u => sistema.usuarios.push(u));
+
+    sistema.saveToStorage();
+}
+
 
 // ---------- Catálogo pré-cadastrado ----------
 function seedCatalogo() {
