@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineTrack - Cadastrar Usuário</title>
+  <link rel="icon" href="/assets/logo/logomin.png" type="image/png">
+  <link rel="stylesheet" href="/src/css/style.css">
+  <script src="/src/script/js/script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Cadastrar Usuário</h1>
+    <nav>
+      <a href="/index.html">Home</a> |
+      <a href="/src/pages/cadastrar-titulo.html">Cadastrar Título</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="formUsuario">
+      <label>Nome: <input id="nome" required /></label><br>
+      <label>Idade: <input id="idade" type="number" required /></label><br>
+      <label>Gênero favorito:
+        <select id="generoFavorito">
+          <option>Ação</option>
+          <option>Animação</option>
+          <option>Aventura</option>
+          <option>Comédia</option>
+          <option>Ficção Cientifica</option>
+          <option>Romance</option>
+          <option>Terror</option>
+        </select>
+      </label><br>
+      <label>Foto do usuário:</label>
+      <input type="file" id="fotoUsuario" accept="image/*">
+
+      <img id="previewFotoUsuario" style="width:120px;margin-top:10px;display:none;border-radius:6px;"><br>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <h3>Saída</h3>
+    <pre id="output" class="output"></pre>
+  </main>
+
+</body>
+</html>
