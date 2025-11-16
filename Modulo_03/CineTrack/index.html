@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cine Track - Home</title>
-    <link rel="icon" href="./assets/logo/minilogo.png" type="image/png">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="icon" href="./assets/logo/logomin.png" type="image/png">
+    <link rel="stylesheet" href="/src/css/style.css">
+    <script src="./src/script/js/script.js" defer></script>
 </head>
 
 <body>
@@ -15,14 +15,14 @@
     <h1>CineTrack</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="cadastrar-usuario.html">Cadastrar Usuário</a>
-      <a href="cadastrar-titulo.html">Cadastrar Título</a>
+      <a href="./src/pages/cadastrar-usuario.html">Cadastrar Usuário</a>
+      <a href="./src/pages/cadastrar-titulo.html">Cadastrar Título</a>
     </nav>
   </header>
 
   <main>
-    <section>
-      <h2>Usuários</h2>
+    <section class="areaUsuario">
+      <h2 class="nomeSelecionado"></h2>
       <img id="fotoUsuarioSelecionado" style="
           width:120px; 
           height:120px; 
@@ -39,17 +39,19 @@
       <!-- opcional: onde exibimos o usuário selecionado -->
       <div id="usuarioAtual" style="margin-bottom:20px; font-size:18px;"></div>
       
-      <button id="btnVerFavoritos">Ver Favoritos</button>
-      <button id="btnVerAssistindo">Ver assistindo</button>
+      <div id="botoesUsuario">
+        <button id="btnVerFavoritos">Ver Favoritos &#x2B50;</button>
+        <button id="btnVerAssistindo">Ver assistindo &#x1F440;</button>
+      </div>
     </section>
 
-    <section>
+    <section class="recomendacao">
       <h2>Recomendações</h2>
       <button id="btnRecomendar">Gerar recomendações para usuário selecionado</button>
       <pre id="outputRecomendacao" class="output"></pre>
     </section>
 
-    <section>
+    <section class="exibirCatalogo">
       <h2>Catálogo</h2>
       <div id="catalogo"></div>
     </section>
