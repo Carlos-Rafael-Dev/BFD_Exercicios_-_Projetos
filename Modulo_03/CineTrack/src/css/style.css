@@ -1,0 +1,185 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
+}
+
+header img {
+  margin-right: 10px;
+}
+
+header h1 {
+  display: inline-block;
+  margin: 0;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+nav a:hover {
+  color: #ccc;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2em;
+}
+
+section {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 800px;
+}
+
+.areaUsuario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.recomendacao{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+button {
+  background-color: #d60808c1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #741005c1;
+}
+
+.exibirCatalogo h2{
+  text-align: center;
+}
+
+.catalogo{
+  padding: 20px;
+}
+
+.categoria-titulo{
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #000000;
+}
+
+.categoria {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 12px;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+.categoria::-webkit-scrollbar {
+  height: 6px;
+}
+
+.categoria::-webkit-scrollbar-thumb{
+  background: #444;
+  border-radius: 10px;
+}
+
+.card {
+  width: 200px;           
+  height: fit-content;
+  flex: 0 0 180px;                    
+  background: #222;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card strong {
+  color: white;
+}
+
+.card-botoes {
+  margin-top: 6px;
+  display: flex;
+  gap: 4px;
+}
+
+.card-botoes button {
+  flex: 1;
+  padding: 4px;
+  background: #d60808c1;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#popupAvaliacao {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#popupAvaliacao h3 {
+  margin-top: 0;
+}
+
+#popupAvaliacao label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#popupAvaliacao input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+}
+
+#popupAvaliacao button {
+  background-color: #b41a09c1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#popupAvaliacao button:hover {
+  background-color: #b41a09c1;
+}
