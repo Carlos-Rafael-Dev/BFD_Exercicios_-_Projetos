@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineTrack - Cadastrar Título</title>
+  <link rel="icon" href="/assets/logo/logomin.png" type="image/png">
+  <link rel="stylesheet" href="/src/css/style.css">
+  <script src="/src/script/js/script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Cadastrar Título</h1>
+    <nav><a href="/index.html">Home</a> | <a href="/src/pages/cadastrar-usuario.html">Cadastrar Usuário</a></nav>
+  </header>
+
+  <main>
+    <form id="formTitulo">
+      <label>Título: <input id="titulo" required /></label><br>
+
+      <label>Tipo:
+        <select id="tipo">
+          <option>Filme</option>
+          <option>Série</option>
+        </select>
+      </label><br>
+
+      <label>Gênero:
+        <select id="genero">
+          <option>Ação</option>
+          <option>Animação</option>
+          <option>Aventura</option>
+          <option>Comédia</option>
+          <option>Ficção Cientifica</option>
+          <option>Romance</option>
+          <option>Terror</option>
+        </select>
+        </label><br>
+
+      <label>Plataforma:
+        <select id="plataforma">
+          <option>Netflix</option>
+          <option>Prime Video</option>
+          <option>Disney+</option>
+          <option>HBO Max</option>
+        </select>
+      </label><br>
+
+      <label>Ano lançamento: <input id="ano" type="number" /></label><br>
+
+      <label>Imagem da capa:
+        <input id="imagemFile" type="file" accept="image/*" />
+      </label><br>
+      <img id="previewImagem" src="" alt="Prévia" style="display:none;width:150px;border-radius:6px;margin:6px 0;" />
+    
+      <div id="extrasSerie" style="display:none;">
+        <label>Temporadas: <input id="temporadas" type="number" min="1" /></label><br>
+        <label>Episódios: <input id="episodios" type="number" min="1" /></label><br>
+      </div>
+
+      <button type="submit">Adicionar ao catálogo</button>
+    </form>
+
+    <h3>Saída</h3>
+    <pre id="outputTitulo" class="output"></pre>
+  </main>
+
+</body>
+</html>
