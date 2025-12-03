@@ -11,7 +11,7 @@ function App() {
   
   return (
     <div className='container'>
-      <Banner/>
+      <Banner />
 
       <Categorias 
         numCategoriaSelecionada={numCategoriaSelecionada}
