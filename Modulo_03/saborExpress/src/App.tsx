@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import TestePedido from './components/TestePedido.tsx';
 
 function App() {
   return (
-    <h1>Sabor Express</h1>
+    <>
+      <h1>Sabor Express</h1>
+      <TestePedido />
+    </>
   )
 }
 
