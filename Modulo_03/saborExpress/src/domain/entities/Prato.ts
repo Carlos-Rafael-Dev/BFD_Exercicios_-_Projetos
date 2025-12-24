@@ -4,8 +4,9 @@ import { CategoriaPrato } from "../enums/CategoriaPrato";
 
 export class Prato {
     constructor(
-        private readonly id: string,
+        private readonly id: number,
         private nome: string,
+        private descricao: string,
         private preco: number,
         private categoria: CategoriaPrato
     ) {}
@@ -16,6 +17,10 @@ export class Prato {
 
     getNome() {
         return this.nome;
+    }
+
+    getDescricao() {
+        return this.descricao;
     }
 
     getPreco() {

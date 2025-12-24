@@ -1,3 +1,5 @@
+@import './components.css';
+
 :root {
     --color-primary: #5dbb63;
     --color-secondary: #ff7a00;
