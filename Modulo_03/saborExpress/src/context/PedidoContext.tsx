@@ -6,6 +6,7 @@ export type PedidoContextType = {
     pedido: Pedido;
     adicionarPrato: (prato: Prato) => void;
     removerPrato: (index: number) => void;
+    finalizarPedido: () => void;
     total: number;
 };
 
