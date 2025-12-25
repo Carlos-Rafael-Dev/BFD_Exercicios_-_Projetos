@@ -1,42 +1,27 @@
+import type { CategoriaPrato } from "../enums/CategoriaPrato";
 import { Prato } from "./Prato";
 
-export class Combo {
+export class Combo extends Prato {
     constructor(
-        private readonly id: number,
-        private nome: string,
-        private descricao: string,
+        id: string,
+        nome: string,
+        descricao: string,
+        preco: number,
+        categoria: CategoriaPrato,
         private pratos: Prato[],
-        private preco: number
     ) {
+        super(id, nome, descricao, preco, categoria);
+
         if (pratos.length === 0) {
             throw new Error("Um combo deve possuir ao menos um prato.");
         }
-    }
-
-    getId(): number {
-        return this.id;
-    }
-
-    getNome(): string {
-        return this.nome;
-    }
-
-    getDescricao(): string {
-        return this.descricao;
     }
 
     getPratos(): Prato[] {
         return [...this.pratos];
     }
 
-    getPreco(): number {
-        return this.preco;
-    }
-
-    /**
-     * Preço original (soma dos pratos)
-    */
-
+    // Preço original (soma dos pratos)
     getPrecoOriginal(): number {
         return this.pratos.reduce(
             (total, prato) => total + prato.getPreco(),
@@ -44,10 +29,8 @@ export class Combo {
         );
     }
 
-    /**
-     * Valor economizado no combo
-    */
+    // Valor economizado no combo
     getDesconto(): number {
-        return this.getPrecoOriginal() - this.preco;
+        return this.getPrecoOriginal() - this.getPreco();
     }
 }

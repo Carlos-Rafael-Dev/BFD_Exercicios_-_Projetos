@@ -1,19 +1,13 @@
 import { Prato } from "../../domain/entities/Prato";
-import { Combo } from "../../domain/entities/Combo";
-
 import MenuItem from "../../components/MenuItem";
-import ComboItem from "../../components/MenuItem/ComboItem";
-
-import { cardapio } from "../../data/Cardapio";
-import { combos } from "../../data/combos";
+import { cardapio } from "../../data/cardapio";
+import { usePedido } from "../../hooks/usePedido";
 
 export default function Menu() {
-    function handleAddPrato(prato: Prato) {
-        console.log("Adicionar ao pedido:", prato.getNome());
-    }
+    const { adicionarPrato } = usePedido();
 
-    function handleAddCombo(combo: Combo) {
-        console.log("Adicionar Combo:", combo.getNome());
+    function handleAddPrato(prato: Prato) {
+        adicionarPrato(prato);
     }
 
     return (
@@ -25,16 +19,6 @@ export default function Menu() {
                     key={prato.getId()}
                     prato={prato}
                     onAdd={handleAddPrato}
-                />
-            ))}
-
-            <h3>Combos</h3>
-
-            {combos.map(combo => (
-                <ComboItem
-                    key={combo.getId()}
-                    combo={combo}
-                    onAdd={handleAddCombo}
                 />
             ))}
         </section>

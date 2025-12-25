@@ -4,4 +4,5 @@ export enum CategoriaPrato {
     MASSAS = "MASSAS",
     BEBIDAS = "BEBIDAS",
     SOBREMESAS = "SOBREMESAS",
+    COMBOS = "COMBOS",
 }

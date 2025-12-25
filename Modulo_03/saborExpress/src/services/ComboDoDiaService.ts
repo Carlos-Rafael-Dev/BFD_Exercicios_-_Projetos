@@ -18,10 +18,11 @@ export class ComboDoDiaService {
         }
 
         const hoje = new Date().toISOString().split("T")[0];
-        const seed = this.hash(hoje);
+        const seedNumber = this.hash(hoje);
+        const seed = `c${seedNumber}`;
 
-        const massa = this.sortearPratos(principais, seed, 1)[0];
-        const bebida = this.sortearPratos(bebidas, seed + 1, 1)[0];
+        const massa = this.sortearPratos(principais, seedNumber, 1)[0];
+        const bebida = this.sortearPratos(bebidas, seedNumber + 1, 1)[0];
 
         const pratosSorteados = [massa, bebida];
 
@@ -36,8 +37,9 @@ export class ComboDoDiaService {
             seed,
             "Combo do Dia",
             "Combo especial sorteado automaticamente.",
+            precoCombo,
+            CategoriaPrato.COMBOS,
             pratosSorteados,
-            precoCombo
         );
     }
 
