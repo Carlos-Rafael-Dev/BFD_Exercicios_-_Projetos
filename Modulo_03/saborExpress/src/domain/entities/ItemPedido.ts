@@ -1,6 +1,6 @@
 //Entidade e metodos ItemPedido
 //Prato + quantidade
-import type { Prato } from "./Prato";
+import { Prato } from "./Prato";
 
 export class ItemPedido {
     constructor(
@@ -24,6 +24,20 @@ export class ItemPedido {
 
     getResumo() {
         return `${this.prato.getNome()} (x${this.quantidade})`;
+    }
+
+    toJSON() {
+        return {
+            prato: this.prato,
+            quantidade: this.quantidade,
+        };
+    }
+
+    static fromJSON(json: any): ItemPedido {
+        return new ItemPedido(
+            Prato.fromJSON(json.prato),
+            json.quantidade,
+        );
     }
 }
 

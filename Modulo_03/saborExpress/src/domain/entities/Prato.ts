@@ -4,7 +4,7 @@ import { CategoriaPrato } from "../enums/CategoriaPrato";
 
 export class Prato {
     constructor(
-        private readonly id: number,
+        private readonly id: string,
         private nome: string,
         private descricao: string,
         private preco: number,
@@ -29,6 +29,26 @@ export class Prato {
 
     getCategoria() {
         return this.categoria;
+    }
+
+    static fromJSON(json: any): Prato {
+        return new Prato(
+            json.id,
+            json.nome,
+            json.descricao,
+            json.preco,
+            json.categoria
+        );
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+            nome: this.nome,
+            descricao: this.descricao,
+            preco: this.preco,
+            categoria: this.categoria
+        };
     }
 }
 

@@ -1,7 +1,7 @@
 //Entidade e metodos Pedido (coração do sistema)
 //Carrinho + regras
 import { StatusPedido } from "../enums/StatusPedido";
-import type { ItemPedido } from "./ItemPedido";
+import { ItemPedido } from "./ItemPedido";
 
 export class Pedido {
     private itens: ItemPedido[] = [];
@@ -30,7 +30,20 @@ export class Pedido {
     getStatus() {
         return this.status;
     }
+
+    toJSON() {
+        return {
+            itens: this.itens.map(item => item.toJSON())
+        }
+    }
+
+    static fromJSON(json: any): Pedido {
+        const pedido = new Pedido();
+        pedido.itens = json.itens.map((item: any) =>
+            ItemPedido.fromJSON(item)
+        );
+        return pedido;
+    }
 }
 
-//Calcula preço e concatena texto
 //Resolve lógica de carrinho

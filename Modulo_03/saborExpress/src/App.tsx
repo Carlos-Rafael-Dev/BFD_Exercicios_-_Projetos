@@ -1,5 +1,6 @@
 import Home from './pages/Home/index.tsx';
 import Menu from './pages/Menu/index.tsx';
+import PedidoPage from './pages/Pedido/index.tsx';
 
 function App() {
   return (
@@ -8,6 +9,8 @@ function App() {
 
       <Home />
       <Menu />
+
+      <PedidoPage />
 
     </>
   )
