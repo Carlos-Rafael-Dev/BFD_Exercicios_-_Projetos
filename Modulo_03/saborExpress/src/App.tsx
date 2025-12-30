@@ -1,3 +1,4 @@
+import Header from './components/Header/index.tsx';
 import Home from './pages/Home/index.tsx';
 import Menu from './pages/Menu/index.tsx';
 import PedidoPage from './pages/Pedido/index.tsx';
@@ -5,6 +6,7 @@ import PedidoPage from './pages/Pedido/index.tsx';
 function App() {
   return (
     <>
+      <Header />
       <h1>Sabor Express</h1>
 
       <Home />

@@ -1,28 +1,68 @@
-
 /* BUTTON */
 .btn {
-    padding: 12px 20px;
-    border-radius: var(--radius);
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .btn-primary {
-    background-color: var(--color-primary);
-    color: white;
+  background-color: var(--color-primary);
+  color: white;
 }
 
 .btn-secondary {
-    background-color: var(--color-secondary);
-    color: white;
+  background-color: var(--color-secondary);
+  color: white;
 }
 
 /* CARD GENERICO */
 .card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 62px;
+  padding-left: 64px;
+  padding-right: 64px;
+}
+
+.header img {
+  height: 48px;
+}
+
+.navbar {
+  display: flex;
+  gap: 58px;
+}
+
+.navbar a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.shopping-cart {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-texto);
+}
+
+.shopping-cart img {
+  width: 30px;
+  height: 30px;
+}
