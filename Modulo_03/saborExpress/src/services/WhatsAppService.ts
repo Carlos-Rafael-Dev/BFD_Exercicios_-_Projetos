@@ -1,13 +1,16 @@
 //Serviço de mensagem WhatsApp
 import { Pedido } from "../domain/entities/Pedido";
+import { Usuario } from "../domain/entities/Usuario";
 
 export class WhatsAppService {
-    static gerarMensagem(pedido: Pedido): string {
+    static gerarMensagem(pedido: Pedido, usuario: Usuario): string {
         return `
 *Novo Pedido*
     
 Olá! 
-Gostaria de fazer o pedido:
+Pedido de: ${usuario.getNome()}
+Telefonhe: ${usuario.getTelefone()}
+Endereço: ${usuario.getEndereco()?.formatar()}
     
 *Itens do pedido*
 ${pedido.listarResumo()}

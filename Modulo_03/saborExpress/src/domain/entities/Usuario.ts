@@ -1,9 +1,13 @@
 //Entidade e metodos Usuario
 //Quem faz o pedido
+
+import { Endereco } from "../valueObjects/Endereco";
+
 export class Usuario {
     constructor(
         private nome: string,
-        private telefone: string
+        private telefone: string,
+        private endereco?: Endereco
     ) {}
 
     getNome() {
@@ -13,7 +17,15 @@ export class Usuario {
     getTelefone() {
         return this.telefone;
     }
+
+    getEndereco() {
+        return this.endereco;
+    }
+
+    definirEndereco(endereco: Endereco) {
+        this.endereco = endereco;
+    }
 }
 
 //Usuario simples
-//Extender para endereço e login
+//Extendido para endereço e login
