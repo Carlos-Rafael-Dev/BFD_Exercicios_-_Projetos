@@ -5,61 +5,57 @@ import { Prato } from "../domain/entities/Prato";
 import { ItemPedido } from "../domain/entities/ItemPedido";
 import { WhatsAppService } from "../services/WhatsAppService";
 
-
 type Props = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export function PedidoProvider({ children }: Props) {
-    const [pedido, setPedido] = useState(() => {
-        const salvo = localStorage.getItem("pedido");
-        return salvo ? Pedido.fromJSON(JSON.parse(salvo)) : new Pedido();
+  const [pedido, setPedido] = useState(() => {
+    const salvo = localStorage.getItem("pedido");
+    return salvo ? Pedido.fromJSON(JSON.parse(salvo)) : new Pedido();
+  });
+
+  const TELEFONE_RESTAURANTE = "5583987929627";
+
+  function adicionarPrato(prato: Prato) {
+    setPedido((prev) => {
+      const novoPedido = Pedido.fromJSON(prev.toJSON());
+      novoPedido.adicionarItem(new ItemPedido(prato));
+      return novoPedido;
     });
+  }
 
-    const TELEFONE_RESTAURANTE = '5583987929627'
+  function removerPrato(index: number) {
+    setPedido((prev) => {
+      const novoPedido = Pedido.fromJSON(prev.toJSON());
+      novoPedido.removerItem(index);
+      return novoPedido;
+    });
+  }
 
-    function adicionarPrato(prato: Prato) {
-        setPedido(prev => {
-            const novoPedido = Pedido.fromJSON(prev.toJSON());
-            novoPedido.adicionarItem(new ItemPedido(prato));
-            return novoPedido;
-        });
-    }
+  function finalizarPedido() {
+    const mensagem = WhatsAppService.gerarMensagem(pedido);
+    const link = WhatsAppService.gerarLink(TELEFONE_RESTAURANTE, mensagem);
 
-    function removerPrato(index: number) {
-        setPedido(prev => {
-            const novoPedido = Pedido.fromJSON(prev.toJSON());
-            novoPedido.removerItem(index);
-            return novoPedido;
-        });
-    }
+    window.open(link, "_blank");
+    setPedido(new Pedido());
+  }
 
-    function finalizarPedido() {
-        const mensagem = WhatsAppService.gerarMensagem(pedido);
-        const link = WhatsAppService.gerarLink(
-            TELEFONE_RESTAURANTE,
-            mensagem
-        );
+  useEffect(() => {
+    localStorage.setItem("pedido", JSON.stringify(pedido.toJSON()));
+  }, [pedido]);
 
-        window.open(link, "_blank");
-        setPedido(new Pedido());
-    }
-
-    useEffect(() => {
-        localStorage.setItem("pedido", JSON.stringify(pedido.toJSON()));
-        }, [pedido]);
-
-    return (
-        <PedidoContext.Provider
-            value={{
-                pedido,
-                adicionarPrato,
-                removerPrato,
-                finalizarPedido,
-                total: pedido.calcularTotal(),
-            }}
-        >
-            {children}
-        </PedidoContext.Provider>
-    );
+  return (
+    <PedidoContext.Provider
+      value={{
+        pedido,
+        adicionarPrato,
+        removerPrato,
+        finalizarPedido,
+        total: pedido.calcularTotal(),
+      }}
+    >
+      {children}
+    </PedidoContext.Provider>
+  );
 }
