@@ -3,13 +3,13 @@ import type { Pedido } from "../domain/entities/Pedido";
 import type { Prato } from "../domain/entities/Prato";
 
 export type PedidoContextType = {
-    pedido: Pedido;
-    adicionarPrato: (prato: Prato) => void;
-    removerPrato: (index: number) => void;
-    finalizarPedido: () => void;
-    total: number;
+  pedido: Pedido;
+  adicionarPrato: (prato: Prato) => void;
+  removerPrato: (index: number) => void;
+  finalizarPedido: () => void;
+  total: number;
 };
 
 export const PedidoContext = createContext<PedidoContextType>(
-    {} as PedidoContextType
+  {} as PedidoContextType
 );
