@@ -1,12 +1,29 @@
 //Entidade e metodos ItemPedido
 //Prato + quantidade
 import { Prato } from "./Prato";
+import type { PratoDTO } from "./Prato";
+import { PratoFactory } from "./PratoFactory";
+
+export type ItemPedidoDTO = {
+    quantidade: number;
+    original: PratoDTO;
+    personalizado: PratoDTO;
+};
 
 export class ItemPedido {
+    private quantidade: number;
+    public readonly original: Prato;
+    public readonly personalizado: Prato
+
     constructor(
-        private prato: Prato,
-        private quantidade: number = 1
-    ) {}
+        original: Prato, 
+        personalizado: Prato, 
+        quantidade: number = 1
+    ) {
+        this.quantidade = quantidade;
+        this.original = original;
+        this.personalizado = personalizado;
+    }
 
     aumentarQuantidade() {
         this.quantidade++;
@@ -19,26 +36,28 @@ export class ItemPedido {
     }
 
     getTotal(): number {
-        return this.prato.getPreco() * this.quantidade;
+        return this.personalizado.getPreco() * this.quantidade;
     }
 
     getResumo() {
-        return `${this.prato.getNome()} (x${this.quantidade})`;
+        return `${this.personalizado.getNome()} (x${this.quantidade})`;
     }
 
-    toJSON() {
+    toJSON(): ItemPedidoDTO {
         return {
-            prato: this.prato,
             quantidade: this.quantidade,
+            original: this.original.toJSON(),
+            personalizado: this.personalizado.toJSON()
         };
     }
 
-    static fromJSON(json: any): ItemPedido {
+    static fromJSON(json: ItemPedidoDTO): ItemPedido {
         return new ItemPedido(
-            Prato.fromJSON(json.prato),
-            json.quantidade,
+          PratoFactory.fromJSON(json.original),
+          PratoFactory.fromJSON(json.personalizado),
+          json.quantidade
         );
-    }
+      }
 }
 
 //Encapsulado

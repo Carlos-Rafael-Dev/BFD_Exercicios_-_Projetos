@@ -10,11 +10,13 @@
 .btn-primary {
   background-color: var(--color-primary);
   color: white;
+  border: 2px solid var(--color-primary);
 }
 
 .btn-secondary {
-  background-color: var(--color-secondary);
-  color: white;
+  background-color: none;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 /* CARD GENERICO */
@@ -23,6 +25,10 @@
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card img {
+  height: 200px;
 }
 
 /* HEADER */
@@ -48,6 +54,7 @@
 .navbar a {
   text-decoration: none;
   font-weight: 500;
+  color: var(--color-texto);
 }
 
 .navbar a:hover {
@@ -65,4 +72,50 @@
 .shopping-cart img {
   width: 30px;
   height: 30px;
+}
+
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.ingrediente-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  flex-direction: row;
+  align-items: center;
+  gap:.6rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.ingrediente-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.ingrediente-item img {
+  width: 60px;
+  height: 50px;
+}
+
+.ingrediente-item.removido .ingrediente-imagem {
+  filter: grayscale(100%);
+  opacity: 0.5;
 }
