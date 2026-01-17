@@ -1,16 +1,19 @@
+import type { ButtonHTMLAttributes } from "react";
+
 type ButtonProps = {
-    children: React.ReactNode;
-    onClick?: () => void;
     variant?: 'primary' | 'secondary';
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({ 
     children, 
-    onClick,
-    variant = 'primary', 
+    variant = 'primary',
+    ...props
 }: ButtonProps) {
     return (
-        <button className={`btn btn-${variant}`} onClick={onClick}>
+        <button 
+        {...props}
+        className={`btn btn-${variant}`}
+        >
             {children}
         </button>
     );
