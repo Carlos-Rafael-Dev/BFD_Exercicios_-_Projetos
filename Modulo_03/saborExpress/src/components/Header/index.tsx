@@ -1,4 +1,5 @@
-import sacolaIcon from "../../assets/bolsa-de-compras.png" 
+import { NavLink } from "react-router-dom";
+import sacolaIcon from "../../assets/bolsa-de-compras.png";
 
 export default function Header() {
   return (
@@ -9,9 +10,11 @@ export default function Header() {
         <a href="#">Sobre</a>
         <a href="#">Contato</a>
       </nav>
-      <button className="shopping-cart">
-        <img src={sacolaIcon} alt="Carrinho" />
-      </button>
+      <NavLink to='/carrinho'>
+        <button className="shopping-cart">
+          <img src={sacolaIcon} alt="Carrinho" />
+        </button>
+      </NavLink>
     </div>
   );
 }
