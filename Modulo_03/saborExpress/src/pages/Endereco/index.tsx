@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Endereco } from "../../domain/valueObjects/Endereco";
 import { useUsuario } from "../../hooks/useUsuario";
 import Button from "../../components/Button";
+import { NavLink } from "react-router-dom";
 
 export default function EnderecoPage() {
   const { definirEndereco } = useUsuario();
@@ -26,8 +27,9 @@ export default function EnderecoPage() {
         placeholder="Complemento"
         onChange={(e) => setComplemento(e.target.value)}
       />
-
+      <NavLink to={"/checkout"}>
       <Button onClick={salvar}>Salvar endereço</Button>
+      </NavLink>
     </section>
   );
 }
