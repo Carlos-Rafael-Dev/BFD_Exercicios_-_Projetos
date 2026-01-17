@@ -9,7 +9,7 @@ export class WhatsAppService {
     
 Olá! 
 Pedido de: ${usuario.getNome()}
-Telefonhe: ${usuario.getTelefone()}
+Telefone: ${usuario.getTelefone()}
 Endereço: ${usuario.getEndereco()?.formatar()}
     
 *Itens do pedido*

@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { useUsuario } from "../../hooks/useUsuario";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const { login } = useUsuario();
+    const navigate = useNavigate();
+
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
+    
+    function handleContinuar() {
+        login(nome, telefone);
+
+        navigate("/checkout");
+    }
 
     return (
         <section>
@@ -24,9 +33,10 @@ export default function Login() {
                 onChange={e => setTelefone(e.target.value)}
             />
 
-            <Button onClick={() => login(nome, telefone)}>
+            <Button onClick={handleContinuar}> 
                 Continuar
             </Button>
+
         </section>
     );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { UsuarioContext } from "./UsuarioContext";
 import { Usuario } from "../domain/entities/Usuario";
 import { Endereco } from "../domain/valueObjects/Endereco";
+import type { PedidoDTO } from "../domain/entities/Pedido";
 
 type Props = {
   children: React.ReactNode;
@@ -9,6 +10,7 @@ type Props = {
 
 export function UsuarioProvider({ children }: Props) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [historicoPedidos, setHistoricoPedidos] = useState<PedidoDTO[]>([]);
 
   function login(nome: string, telefone: string) {
     const novoUsuario = new Usuario(nome, telefone);
@@ -29,6 +31,12 @@ export function UsuarioProvider({ children }: Props) {
     localStorage.setItem("endereco", JSON.stringify(endereco));
   }
 
+  function adicionarPedido(pedido: PedidoDTO) {
+    const novosPedidos = [...historicoPedidos, pedido];
+    setHistoricoPedidos(novosPedidos);
+    localStorage.setItem("historicoPedidos", JSON.stringify(novosPedidos));
+  }
+
   function logout() {
     setUsuario(null);
     localStorage.clear();
@@ -37,6 +45,7 @@ export function UsuarioProvider({ children }: Props) {
   useEffect(() => {
     const usuarioSalvo = localStorage.getItem("usuario");
     const enderecoSalvo = localStorage.getItem("endereco");
+    const pedidosSalvos = localStorage.getItem("historicoPedidos");
 
     if (usuarioSalvo) {
       const { nome, telefone } = JSON.parse(usuarioSalvo);
@@ -46,11 +55,16 @@ export function UsuarioProvider({ children }: Props) {
 
       setUsuario(new Usuario(nome, telefone, endereco));
     }
+
+    if (pedidosSalvos) {
+      setHistoricoPedidos(JSON.parse(pedidosSalvos));
+    }
+
   }, []);
 
   return (
     <UsuarioContext.Provider
-      value={{ usuario, login, definirEndereco, logout }}
+      value={{ usuario, historicoPedidos, login, definirEndereco, adicionarPedido, logout }}
     >
       {children}
     </UsuarioContext.Provider>
