@@ -1,27 +1,30 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { usePedido } from "../../hooks/usePedido";
 
-
 export default function PedidoPage() {
-    const { pedido, total, finalizarPedido } = usePedido();
+  const { pedido, total } = usePedido();
+  const navigate = useNavigate();
 
-    return (
-        <section>
-            <h2>Carrinho</h2>
+  function handleFinalizar() {
+    navigate("/checkout");
+  }
 
-            {pedido.listarResumo() ? (
-                <>
-                    <pre>{pedido.listarResumo()}</pre>
+  return (
+    <section>
+      <h2>Carrinho</h2>
 
-                    <strong>Total: R$ {total.toFixed(2)}</strong>
+      {pedido.listarResumo() ? (
+        <>
+          <pre>{pedido.listarResumo()}</pre>
 
-                    <Button onClick={finalizarPedido}>
-                        Finalizar pedido
-                    </Button>
-                </>
-            ) : (
-                <p>Seu pedido ainda está vazio.</p>
-            )}
-        </section>
-    );
+          <strong>Total: R$ {total.toFixed(2)}</strong>
+
+          <Button onClick={handleFinalizar}>Finalizar pedido</Button>
+        </>
+      ) : (
+        <p>Seu pedido ainda está vazio.</p>
+      )}
+    </section>
+  );
 }
