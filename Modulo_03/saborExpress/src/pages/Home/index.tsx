@@ -7,16 +7,23 @@ import Header from "../../components/Header";
 import { useState } from "react";
 import IngredientesModal from "../../components/IngredientesModal/IngredientesModal";
 import { ItemPedido } from "../../domain/entities/ItemPedido";
+import { CategoriaPrato } from "../../domain/enums/CategoriaPrato";
+import CategoryFilter from "../../components/CategoryFilter";
 
 
 export default function Home() {
   const { adicionarPrato } = usePedido();
+  const { adicionarItem } = usePedido();
 
   const [modalAberto, setModalAberto] = useState(false);
   const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null);
+  const [categoriaSelecionada, setCategoriaSelecionada] = 
+  useState<CategoriaPrato>(CategoriaPrato.SALADAS);
 
-  const { adicionarItem } = usePedido();
-  
+  const cardapioFiltrado = cardapio.filter(prato => {
+    return prato.getCategoria() === categoriaSelecionada;
+  })
+
   function handleAddPrato(prato: Prato) {
     adicionarPrato(prato);
   }
@@ -51,7 +58,13 @@ export default function Home() {
 
       <section>
         <h2>Cardápio</h2>
-        {cardapio.map((prato) => (
+
+        <CategoryFilter 
+          categoriaAtiva={categoriaSelecionada}
+          onSelecionar={setCategoriaSelecionada}
+        />
+
+        {cardapioFiltrado.map((prato) => (
           <MenuItem
             key={prato.getId()}
             prato={prato}
