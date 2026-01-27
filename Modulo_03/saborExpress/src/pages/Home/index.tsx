@@ -10,22 +10,25 @@ import { ItemPedido } from "../../domain/entities/ItemPedido";
 import { CategoriaPrato } from "../../domain/enums/CategoriaPrato";
 import CategoryFilter from "../../components/CategoryFilter";
 
-
 export default function Home() {
-  const { adicionarPrato } = usePedido();
-  const { adicionarItem } = usePedido();
+  const {
+    adicionarOuIncrementar,
+    adicionarItem,
+    pratoJaNoCarrinho,
+    quantidadeNoCarrinho,
+  } = usePedido();
 
   const [modalAberto, setModalAberto] = useState(false);
   const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null);
-  const [categoriaSelecionada, setCategoriaSelecionada] = 
-  useState<CategoriaPrato>(CategoriaPrato.SALADAS);
+  const [categoriaSelecionada, setCategoriaSelecionada] =
+    useState<CategoriaPrato>(CategoriaPrato.SALADAS);
 
-  const cardapioFiltrado = cardapio.filter(prato => {
+  const cardapioFiltrado = cardapio.filter((prato) => {
     return prato.getCategoria() === categoriaSelecionada;
-  })
+  });
 
   function handleAddPrato(prato: Prato) {
-    adicionarPrato(prato);
+    adicionarOuIncrementar(prato);
   }
 
   function handleVerIngredientes(prato: Prato) {
@@ -34,11 +37,7 @@ export default function Home() {
   }
 
   function handleSalvarPersonalizacao(pratoPersonalizado: Prato) {
-    const item = new ItemPedido(
-        pratoSelecionado!,
-        pratoPersonalizado,
-        1
-    )
+    const item = new ItemPedido(pratoSelecionado!, pratoPersonalizado, 1);
 
     adicionarItem(item);
 
@@ -59,7 +58,7 @@ export default function Home() {
       <section>
         <h2>Cardápio</h2>
 
-        <CategoryFilter 
+        <CategoryFilter
           categoriaAtiva={categoriaSelecionada}
           onSelecionar={setCategoriaSelecionada}
         />
@@ -70,6 +69,8 @@ export default function Home() {
             prato={prato}
             onAdd={handleAddPrato}
             onVerIngredientes={handleVerIngredientes}
+            ativo={pratoJaNoCarrinho(prato)}
+            quantidade={quantidadeNoCarrinho(prato)}
           />
         ))}
       </section>

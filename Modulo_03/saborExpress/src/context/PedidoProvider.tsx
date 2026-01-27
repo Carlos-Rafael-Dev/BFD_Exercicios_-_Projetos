@@ -29,9 +29,15 @@ export function PedidoProvider({ children }: Props) {
 
   const TELEFONE_RESTAURANTE = "5583987929627";
 
-  function adicionarPrato(prato: Prato) {
-    const item = new ItemPedido(prato, prato);
-    adicionarItem(item);
+  function adicionarOuIncrementar(prato: Prato) {
+    setPedido((prev) => {
+      const novoPedido = Pedido.fromJSON(prev.toJSON());
+
+      const item = new ItemPedido(prato, prato);
+      novoPedido.adicionarOuIncrementar(item);
+
+      return novoPedido;
+    });
   }
 
   function adicionarItem(item: ItemPedido) {
@@ -50,6 +56,30 @@ export function PedidoProvider({ children }: Props) {
     });
   }
 
+  function aumentarQuantidade(index: number) {
+    setPedido((prev) => {
+      const novoPedido = Pedido.fromJSON(prev.toJSON());
+      novoPedido.aumentarQuantidadeItem(index);
+      return novoPedido;
+    });
+  }
+
+  function diminuirQuantidade(index: number) {
+    setPedido((prev) => {
+      const novoPedido = Pedido.fromJSON(prev.toJSON());
+      novoPedido.diminuirQuantidadeItem(index);
+      return novoPedido;
+    });
+  }
+
+  function pratoJaNoCarrinho(prato: Prato): boolean {
+    return pedido.pratoJaNoCarrinho(prato) >= 0;
+  }
+
+  function quantidadeNoCarrinho(prato: Prato): number {
+    return pedido.getQuantidadePorPrato(prato);
+  }
+
   function finalizarPedido() {
     if (!usuario) {
       navigate("/login");
@@ -62,7 +92,7 @@ export function PedidoProvider({ children }: Props) {
     const link = WhatsAppService.gerarLink(TELEFONE_RESTAURANTE, mensagem);
 
     window.open(link, "_blank");
-    setPedido(new Pedido()); 
+    setPedido(new Pedido());
     localStorage.removeItem("pedido");
   }
 
@@ -74,10 +104,14 @@ export function PedidoProvider({ children }: Props) {
     <PedidoContext.Provider
       value={{
         pedido,
-        adicionarPrato,
+        adicionarOuIncrementar,
+        pratoJaNoCarrinho,
+        quantidadeNoCarrinho,
         adicionarItem,
         removerPrato,
         finalizarPedido,
+        aumentarQuantidade,
+        diminuirQuantidade,
         total: pedido.calcularTotal(),
       }}
     >
