@@ -16,7 +16,7 @@ export default function Checkout() {
 
   function handleFinalizar() {
     if (pedidoVazio) return;
-    
+
     finalizarPedido();
     navigate("/usuario");
   }
@@ -25,7 +25,20 @@ export default function Checkout() {
     <>
       <section>
         <h2>Confirmar pedido</h2>
-        <p>{pedido.listarResumo()}</p>
+
+        {pedido.getItens().map((item, index) => {
+          const descricao = item.getDescricao();
+
+          return (
+            <div key={index}>
+              <strong>{descricao.nome}</strong>
+              {descricao.observacao && <p>{descricao.observacao}</p>}
+              <p>Quantidade: {item.getQuantidade()}</p>
+              <p>Subtotal: R$ {item.getTotal().toFixed(2)}</p>
+            </div>
+          );
+        })}
+
         <p>Total: R$ {pedido.calcularTotal().toFixed(2)}</p>
       </section>
 
@@ -35,17 +48,15 @@ export default function Checkout() {
       </div>
 
       <div>
-        <NavLink to="/carrinho">
-          Voltar ao carrinho
-        </NavLink>
+        <NavLink to="/carrinho">Voltar ao carrinho</NavLink>
 
-        <NavLink to="/endereco">
-          Alterar endereço
-        </NavLink>
+        <NavLink to="/endereco">Alterar endereço</NavLink>
       </div>
 
-      <Button onClick={handleFinalizar} disabled={pedidoVazio}>Enviar Pedido</Button>
-      
+      <Button onClick={handleFinalizar} disabled={pedidoVazio}>
+        Enviar Pedido
+      </Button>
+
       {pedidoVazio && (
         <p>Seu carrinho está vazio. Adiocione itens para continuar.</p>
       )}
