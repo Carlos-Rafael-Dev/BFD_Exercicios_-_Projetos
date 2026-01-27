@@ -19,6 +19,17 @@
   color: var(--color-primary);
 }
 
+.btn-active {
+  background-color: var(--color-secondary); /* verde escuro */
+  color: #fff;
+  border: 2px solid var(--color-secondary);
+}
+
+.btn-active:hover {
+  background-color: #16613d;
+  border: 2px solid #16613d;
+}
+
 /* CARD GENERICO */
 .card {
   background: white;
@@ -123,7 +134,7 @@
 
 .category-filter {
   display: flex;
-  gap: 16px;
+  gap: 6px;
   padding: 12px 0;
   overflow-x: auto;
 }
@@ -137,21 +148,15 @@
   min-width: 96px;
   padding: 12px 10px;
   border-radius: 14px;
-  background-color: #f6f6f6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: .6rem;
   cursor: pointer;
   transition: all 0.25s ease;
   border: 2px solid transparent;
 }
 
-/* Hover */
-.category-card:hover {
-  background-color: #ececec;
-  transform: translateY(-2px);
-}
 
 /* Ícone */
 .category-card img {
@@ -171,20 +176,176 @@
   padding: 0;
 }
 
-/* Estado ativo */
-.category-card:has(button.ativo),
-.category-card.ativo {
-  background-color: var(--color-secondary);
-  border-color:var(--color-secondary);
-}
+
 
 /* Texto ativo */
 .category-card button.ativo {
-  color: #ffffff;
+  color: var(--color-secondary);
+  font-size: bold;
 }
 
 /* Ícone ativo (leve destaque) */
 .category-card:has(button.ativo) img {
   filter: brightness(1.1) contrast(1.1);
-  scale: 1.2;
+  scale: 1.35;
+}
+
+
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto auto;
+  align-items: center;
+  gap: 16px;
+
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.cart-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Info do prato */
+.cart-item .info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cart-item .info strong {
+  font-size: 16px;
+  color: #222;
+}
+
+.cart-item .info span {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Quantidade */
+.cart-item .quantidade {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-item .quantidade button {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: none;
+  background-color: #f0f0f0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cart-item .quantidade button:hover {
+  background-color: #ddd;
+}
+
+.cart-item .quantidade span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Subtotal */
+.cart-item .subtotal {
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+}
+
+/* Botão remover */
+.cart-item .remover {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.cart-item .remover svg {
+  width: 20px;
+  height: 20px;
+  fill: #999;
+}
+
+.cart-item .remover:hover svg {
+  fill: #e63946;
+}
+
+.cart-item .observacao {
+  color: var(--color-secondary);
+  margin-top: 2px;
+}
+
+/* Fundo escuro */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 99;
+}
+
+.cart-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Painel lateral */
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 580px;
+  max-width: 90%;
+  height: 100vh;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.cart-panel.open {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 16px;
+  right: 3.8rem;
+  min-width: 10px;
+  height: 16px;
+  padding: 0 5px;
+  background: #e53935;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  animation: pop 0.2s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.7); }
+  100% { transform: scale(1); }
 }
