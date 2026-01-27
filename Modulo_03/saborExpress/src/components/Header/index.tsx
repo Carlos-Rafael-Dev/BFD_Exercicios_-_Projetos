@@ -1,7 +1,14 @@
-import { NavLink } from "react-router-dom";
 import sacolaIcon from "../../assets/bolsa-de-compras.png";
+import { useState } from "react";
+import PedidoPage from "../../pages/Pedido";
+import { usePedido } from "../../hooks/usePedido";
 
 export default function Header() {
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const { pedido } = usePedido();
+  const quantidadeItens = pedido.getItens().length;
+
   return (
     <div className="header">
       <img src="../public/Logotipo-restaurante-cor.png" alt="logotipo" />
@@ -10,11 +17,19 @@ export default function Header() {
         <a href="#">Sobre</a>
         <a href="#">Contato</a>
       </nav>
-      <NavLink to='/carrinho'>
-        <button className="shopping-cart">
-          <img src={sacolaIcon} alt="Carrinho" />
-        </button>
-      </NavLink>
+
+      <button className="shopping-cart" onClick={() => setCartOpen(true)}>
+        <img src={sacolaIcon} alt="Carrinho" />
+
+      {quantidadeItens > 0 && (
+        <span className="cart-badge">
+          {quantidadeItens}
+        </span>
+      )}
+        
+      </button>
+
+      <PedidoPage isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 }

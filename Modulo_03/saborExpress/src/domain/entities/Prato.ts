@@ -102,11 +102,12 @@ export class Prato {
 
   ingredientesRemovidos(pratoOriginal: Prato): string[] {
     return pratoOriginal.ingredientes
-      .filter(orig =>
-        orig.selecionado &&
-        !this.ingredientes.find(i => i.id === orig.id)?.selecionado
+      .filter(
+        (orig) =>
+          orig.selecionado &&
+          !this.ingredientes.find((i) => i.id === orig.id)?.selecionado
       )
-      .map(i => i.nome);
+      .map((i) => i.nome);
   }
 
   static fromJSON(json: PratoDTO): Prato {
@@ -132,7 +133,6 @@ export class Prato {
       ingredientes: this.ingredientes,
     };
   }
-
 }
 
 //Encapsulado: ninguem mexe diretamente nos dados

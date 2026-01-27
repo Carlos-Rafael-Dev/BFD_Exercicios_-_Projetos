@@ -62,41 +62,38 @@ export class Combo extends Prato {
 
   getResumoPersonalizacao(original: Combo): string {
     const linhas: string[] = [];
-  
-    this.pratos.forEach(pratoPersonalizado => {
+
+    this.pratos.forEach((pratoPersonalizado) => {
       const pratoOriginal = original
         .getPratos()
-        .find(p => p.getId() === pratoPersonalizado.getId());
-  
+        .find((p) => p.getId() === pratoPersonalizado.getId());
+
       if (!pratoOriginal) return;
-  
-      const removidos =
-        pratoPersonalizado.ingredientesRemovidos(pratoOriginal);
-  
+
+      const removidos = pratoPersonalizado.ingredientesRemovidos(pratoOriginal);
+
       if (removidos.length > 0) {
-        linhas.push(
-          `${pratoPersonalizado.nome} (sem ${removidos.join(", ")})`
-        );
+        linhas.push(`${pratoPersonalizado.nome} (sem ${removidos.join(", ")})`);
       }
     });
-  
+
     return linhas.join("; ");
   }
 
   override toJSON(): ComboDTO {
     return {
-        id: this.getId(),
-        imagem: this.getImagem(),
-        nome: this.getNome(),
-        descricao: this.getDescricao(),
-        preco: this.getPreco(), // 🔴 obrigatório (mesmo sendo calculado)
-        categoria: this.getCategoria(),
-        ingredientes: [], // combos não têm ingredientes próprios
-        percentualDesconto: this.percentualDesconto,
-        pratos: this.pratos.map(p => p.toJSON())
+      id: this.getId(),
+      imagem: this.getImagem(),
+      nome: this.getNome(),
+      descricao: this.getDescricao(),
+      preco: this.getPreco(), // 🔴 obrigatório (mesmo sendo calculado)
+      categoria: this.getCategoria(),
+      ingredientes: [], // combos não têm ingredientes próprios
+      percentualDesconto: this.percentualDesconto,
+      pratos: this.pratos.map((p) => p.toJSON()),
     };
   }
-  
+
   static fromJSON(json: any): Combo {
     return new Combo(
       json.id,
@@ -109,6 +106,4 @@ export class Combo extends Prato {
       json.percentualDesconto
     );
   }
-  
-
 }

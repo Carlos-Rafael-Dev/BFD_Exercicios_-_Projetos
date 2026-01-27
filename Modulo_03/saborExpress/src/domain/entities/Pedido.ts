@@ -1,9 +1,10 @@
 //Entidade e metodos Pedido (coração do sistema)
+//Retorna vários Pratos
 //Carrinho + regras
 import { StatusPedido } from "../enums/StatusPedido";
-import { Combo } from "./Combo";
 import { ItemPedido } from "./ItemPedido";
 import type { ItemPedidoDTO } from "./ItemPedido";
+import type { Prato } from "./Prato";
 
 export type PedidoDTO = {
   itens: ItemPedidoDTO[];
@@ -25,38 +26,28 @@ export class Pedido {
     return this.itens.reduce((total, item) => total + item.getTotal(), 0);
   }
 
-  listarResumo(): string {
-    if (this.itens.length === 0) return "";
+  aumentarQuantidadeItem(index: number) {
+    const item = this.itens[index];
+    if (!item) return;
 
-  return this.itens
-    .map(item => {
-      // COMBO
-      if (item.personalizado instanceof Combo &&
-          item.original instanceof Combo) {
-
-        const detalhes =
-          item.personalizado.getResumoPersonalizacao(item.original);
-
-        if (!detalhes) {
-          return item.personalizado.nome;
-        }
-
-        return `${item.personalizado.nome}: ${detalhes}`;
-      }
-
-      // PRATO SIMPLES
-      const removidos =
-        item.personalizado.ingredientesRemovidos(item.original);
-
-      if (removidos.length === 0) {
-        return item.personalizado.nome;
-      }
-
-      return `${item.personalizado.nome} (sem ${removidos.join(", ")})`;
-    })
-    .join("\n");
+    item.aumentarQuantidade();
   }
 
+  diminuirQuantidadeItem(index: number) {
+    const item = this.itens[index];
+    if (!item) return;
+
+    item.diminuirQuantidade();
+
+    // opcional: remover item se quantidade chegar a 0
+    if (item.isVazio()) {
+      this.removerItem(index);
+    }
+  }
+
+  getItens(): readonly ItemPedido[] {
+    return this.itens;
+  }
 
   finalizarPedido() {
     this.status = StatusPedido.ENVIADO;
@@ -64,6 +55,34 @@ export class Pedido {
 
   getStatus() {
     return this.status;
+  }
+
+  getResumoPedido(): string {
+    return this.itens.map((item) => item.getDescricao()).join("\n");
+  }
+
+  pratoJaNoCarrinho(prato: Prato): number {
+    return this.itens.findIndex(
+      (item) => item.getPrato().getId() === prato.getId()
+    );
+  }
+
+  adicionarOuIncrementar(item: ItemPedido) {
+    const index = this.pratoJaNoCarrinho(item.getPrato());
+
+    if (index >= 0) {
+      this.itens[index].aumentarQuantidade();
+    } else {
+      this.itens.push(item);
+    }
+  }
+
+  getQuantidadePorPrato(prato: Prato): number {
+    const item = this.itens.find(
+      (item) => item.getPrato().getId() === prato.getId()
+    );
+
+    return item ? item.getQuantidade() : 0;
   }
 
   toJSON(): PedidoDTO {
