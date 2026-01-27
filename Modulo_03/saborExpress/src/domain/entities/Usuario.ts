@@ -4,27 +4,27 @@
 import { Endereco } from "../valueObjects/Endereco";
 
 export class Usuario {
-    constructor(
-        private nome: string,
-        private telefone: string,
-        private endereco?: Endereco
-    ) {}
+  constructor(
+    private nome: string,
+    private telefone: string,
+    private endereco?: Endereco
+  ) {}
 
-    getNome() {
-        return this.nome;
-    }
+  getNome() {
+    return this.nome;
+  }
 
-    getTelefone() {
-        return this.telefone;
-    }
+  getTelefone() {
+    return this.telefone;
+  }
 
-    getEndereco() {
-        return this.endereco;
-    }
+  getEndereco() {
+    return this.endereco;
+  }
 
-    definirEndereco(endereco: Endereco) {
-        this.endereco = endereco;
-    }
+  definirEndereco(endereco: Endereco) {
+    this.endereco = endereco;
+  }
 }
 
 //Usuario simples

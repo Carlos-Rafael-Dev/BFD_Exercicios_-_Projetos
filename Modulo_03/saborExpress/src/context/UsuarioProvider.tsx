@@ -59,12 +59,18 @@ export function UsuarioProvider({ children }: Props) {
     if (pedidosSalvos) {
       setHistoricoPedidos(JSON.parse(pedidosSalvos));
     }
-
   }, []);
 
   return (
     <UsuarioContext.Provider
-      value={{ usuario, historicoPedidos, login, definirEndereco, adicionarPedido, logout }}
+      value={{
+        usuario,
+        historicoPedidos,
+        login,
+        definirEndereco,
+        adicionarPedido,
+        logout,
+      }}
     >
       {children}
     </UsuarioContext.Provider>
