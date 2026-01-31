@@ -6,6 +6,7 @@ import { ItemPedido } from "../domain/entities/ItemPedido";
 import { WhatsAppService } from "../services/WhatsAppService";
 import { useUsuario } from "../hooks/useUsuario";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/useToast";
 
 type Props = {
   children: React.ReactNode;
@@ -14,6 +15,16 @@ type Props = {
 export function PedidoProvider({ children }: Props) {
   const navigate = useNavigate();
   const { usuario, adicionarPedido } = useUsuario();
+
+  const { showToast } = useToast();
+
+  type UltimaAcao =
+    | { tipo: "ADICIONADO"; prato: string }
+    | { tipo: "ATUALIZADO"; prato: string }
+    | { tipo: "PERSONALIZADO"; prato: string }
+    | null;
+
+  const [ultimaAcao, setUltimaAcao] = useState<UltimaAcao>(null);
 
   const [pedido, setPedido] = useState(() => {
     const salvo = localStorage.getItem("pedido");
@@ -34,7 +45,12 @@ export function PedidoProvider({ children }: Props) {
       const novoPedido = Pedido.fromJSON(prev.toJSON());
 
       const item = new ItemPedido(prato, prato);
-      novoPedido.adicionarOuIncrementar(item);
+      const resultado = novoPedido.adicionarOuIncrementar(item);
+
+      setUltimaAcao({
+        tipo: resultado,
+        prato: prato.nome,
+      });
 
       return novoPedido;
     });
@@ -45,6 +61,11 @@ export function PedidoProvider({ children }: Props) {
       const novoPedido = Pedido.fromJSON(prev.toJSON());
       novoPedido.adicionarItem(item);
       return novoPedido;
+    });
+
+    setUltimaAcao({
+      tipo: "PERSONALIZADO",
+      prato: item.personalizado.nome,
     });
   }
 
@@ -95,6 +116,26 @@ export function PedidoProvider({ children }: Props) {
     setPedido(new Pedido());
     localStorage.removeItem("pedido");
   }
+
+  useEffect(() => {
+    if (!ultimaAcao) return;
+
+    const { tipo, prato } = ultimaAcao;
+
+    if (tipo === "ATUALIZADO") {
+      showToast("Atualizado no carrinho");
+    }
+
+    if (tipo === "ADICIONADO") {
+      showToast(`${prato} adicionado ao carrinho`);
+    }
+
+    if (tipo === "PERSONALIZADO") {
+      showToast(`${prato} personalizado adicionado ao carrinho`);
+    }
+
+    setUltimaAcao(null);
+  }, [ultimaAcao]);
 
   useEffect(() => {
     localStorage.setItem("pedido", JSON.stringify(pedido.toJSON()));

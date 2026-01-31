@@ -67,14 +67,16 @@ export class Pedido {
     );
   }
 
-  adicionarOuIncrementar(item: ItemPedido) {
+  adicionarOuIncrementar(item: ItemPedido): "ADICIONADO" | "ATUALIZADO" {
     const index = this.pratoJaNoCarrinho(item.getPrato());
 
     if (index >= 0) {
       this.itens[index].aumentarQuantidade();
-    } else {
-      this.itens.push(item);
+      return "ATUALIZADO";
     }
+
+    this.itens.push(item);
+    return "ADICIONADO";
   }
 
   getQuantidadePorPrato(prato: Prato): number {

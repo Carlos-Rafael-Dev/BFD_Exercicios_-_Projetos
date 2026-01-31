@@ -4,8 +4,8 @@ import { usePedido } from "../../hooks/usePedido";
 import CartItem from "../../components/CartItem";
 
 type Props = {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 };
 
 export default function PedidoPage({ isOpen, onClose }: Props) {

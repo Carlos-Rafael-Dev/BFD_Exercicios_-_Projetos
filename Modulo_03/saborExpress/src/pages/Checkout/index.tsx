@@ -48,7 +48,7 @@ export default function Checkout() {
       </div>
 
       <div>
-        <NavLink to="/carrinho">Voltar ao carrinho</NavLink>
+        <NavLink to="/">Voltar ao catálogo</NavLink>
 
         <NavLink to="/endereco">Alterar endereço</NavLink>
       </div>
