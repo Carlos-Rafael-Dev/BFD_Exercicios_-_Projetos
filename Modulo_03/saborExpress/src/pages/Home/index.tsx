@@ -9,6 +9,7 @@ import IngredientesModal from "../../components/IngredientesModal/IngredientesMo
 import { ItemPedido } from "../../domain/entities/ItemPedido";
 import { CategoriaPrato } from "../../domain/enums/CategoriaPrato";
 import CategoryFilter from "../../components/CategoryFilter";
+import FlowTicker from "../../components/FlowTicker";
 
 export default function Home() {
   const {
@@ -55,6 +56,8 @@ export default function Home() {
         <Button>Ver cardápio</Button>
       </section>
 
+      <FlowTicker />
+
       <section>
         <h2>Cardápio</h2>
 
@@ -83,6 +86,8 @@ export default function Home() {
           onSalvar={handleSalvarPersonalizacao}
         />
       )}
+
+      
     </>
   );
 }

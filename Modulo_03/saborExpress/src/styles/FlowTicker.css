@@ -1,0 +1,33 @@
+.ticker-marquee {
+    width: 100%;
+    background-color: var(--color-secondary);
+    color: white;
+    height: 40px;
+  }
+  
+  .ticker-row {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    justify-content: space-evenly;
+
+    margin: 0;
+    padding: 0;
+
+    column-gap: 15vw;
+  }
+  
+  .texto {
+    display: flex;
+    gap: 200px;
+    white-space: nowrap;
+    font-size: 1.6rem;
+    color: var(--color-destaque);
+  }
+  .emojis {
+    display: flex;
+    gap: 6rem;
+    white-space: nowrap;
+  }
+  
+  
